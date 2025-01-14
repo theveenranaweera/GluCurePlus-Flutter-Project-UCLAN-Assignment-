@@ -40,7 +40,7 @@ const TextStyle kCredentialLinkText = TextStyle(
 const double kButtonWidth = 277.0;
 const double kButtonHeight = 69.0;
 
-final kCredentialButtonStyle = ElevatedButton.styleFrom(
+final ButtonStyle kCredentialButtonStyle = ElevatedButton.styleFrom(
     backgroundColor: kButtonFillColor,
     foregroundColor: kDarkBgColor,
     shape: RoundedRectangleBorder(

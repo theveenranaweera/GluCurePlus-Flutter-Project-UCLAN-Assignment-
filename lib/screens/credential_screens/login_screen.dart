@@ -92,9 +92,37 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
 
-              // "New to our World? Sign Up"
+              // Forgot Password?
               FadeInUp(
                 duration: const Duration(milliseconds: 1500),
+                child: Center(
+                  child: TextButton(
+                    onPressed: () {
+                      // Navigate to forgot password page if desired
+                    },
+                    child: const Text(
+                      "Forgot Password?",
+                      style: kCredentialLinkText,
+                    ),
+                  ),
+                ),
+              ),
+
+              // Separator line
+              FadeInUp(
+                duration: const Duration(milliseconds: 1600),
+                child: Center(
+                  child: Container(
+                    width: 290,
+                    height: 1.5,
+                    color: Colors.grey.shade700, // Change to your preferred color
+                  ),
+                ),
+              ),
+
+              // "New to our World? Sign Up"
+              FadeInUp(
+                duration: const Duration(milliseconds: 1700),
                 child: Center(
                   child: TextButton(
                     onPressed: () {
