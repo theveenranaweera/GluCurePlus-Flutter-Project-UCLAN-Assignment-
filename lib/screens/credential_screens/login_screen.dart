@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:glucure_plus/constants.dart';
+import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
 import 'package:typeset/typeset.dart';
 import 'package:iconsax/iconsax.dart';
 import 'credential_input_field_widget.dart';
@@ -13,7 +13,6 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: kDarkBgColor,
       appBar: AppBar(
-        elevation: 0,
         backgroundColor: kDarkBgColor,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -36,15 +35,10 @@ class LoginPage extends StatelessWidget {
                 duration: const Duration(milliseconds: 1000),
                 child: Center(
                   child: TypeSet(
-                    // Force each line to match your wireframe layout:
                     "Let’s #Continue#\n"
                         "  to track your\n"
                         " Sugar Intake!",
-                    style: kCredentialScreenHeadingText.copyWith(
-                      fontSize: 30,
-                    ),
-                    // Align text to the left
-                    textAlign: TextAlign.left,
+                    style: kCredentialScreenHeadingText,
                   ),
                 ),
               ),
@@ -109,14 +103,11 @@ class LoginPage extends StatelessWidget {
                     child: Text.rich(
                       TextSpan(
                         text: "New to our World? ",
-                        style: TextStyle(color: Colors.grey[400]),
+                        style: kCredentialCaptionText,
                         children: <InlineSpan>[
                           TextSpan(
                             text: "Sign Up",
-                            style: TextStyle(
-                              color: kQuickAccessCredentialTextColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: kCredentialLinkText,
                           ),
                         ],
                       ),

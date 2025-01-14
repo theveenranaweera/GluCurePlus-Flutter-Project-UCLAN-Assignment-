@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import 'signup_screen.dart';
-import 'package:glucure_plus/constants.dart';
+import 'constants_for_credential_screens.dart';
 import 'package:typeset/typeset.dart';
 
 class WelcomePage extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:glucure_plus/constants.dart';
+import 'constants_for_credential_screens.dart';
 
 class SignupPage extends StatelessWidget {
 

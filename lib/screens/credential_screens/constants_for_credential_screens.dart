@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 const Color kDarkBgColor = Color(0xFF13101F);
 const Color kButtonFillColor = Color(0xFFE4B875);
-const Color kQuickAccessCredentialTextColor = Color(0xFF0066FF);
 
 const TextStyle kWelcomeScreenHeadingText = TextStyle(
     color: Colors.white,
@@ -21,6 +20,19 @@ const TextStyle kCredentialScreenHeadingText = TextStyle(
 const TextStyle kCredentialButtonText = TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.bold,
+    fontFamily: 'Sans',
+);
+
+const TextStyle kCredentialCaptionText = TextStyle(
+    color: Color(0xFF9E9E9E),
+    fontSize: 14,
+    fontFamily: 'Sans',
+);
+
+const TextStyle kCredentialLinkText = TextStyle(
+    color: Color(0xFF0066FF),
+    fontWeight: FontWeight.bold,
+    fontSize: 14,
     fontFamily: 'Sans',
 );
 
