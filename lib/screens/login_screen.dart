@@ -1,8 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:glucure_plus/constants.dart';
+import 'package:typeset/typeset.dart';
+import 'package:iconsax/iconsax.dart';
+import 'credential_input_field_widget.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,74 +18,85 @@ class LoginPage extends StatelessWidget {
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(
-            Icons.arrow_back_ios,
+            Iconsax.arrow_left_2,
             size: 20,
             color: Colors.white,
           ),
         ),
       ),
       body: SafeArea(
-        child: Container(
-          width: double.infinity,
+        child: Padding(
+          // Moved to Padding for consistent spacing
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              // Heading
               FadeInUp(
                 duration: const Duration(milliseconds: 1000),
-                child: const Text(
-                  "Let’s Continue\nto track your\nSugar Intake!",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
+                child: Center(
+                  child: TypeSet(
+                    // Force each line to match your wireframe layout:
+                    "Let’s #Continue#\n"
+                        "  to track your\n"
+                        " Sugar Intake!",
+                    style: kCredentialScreenHeadingText.copyWith(
+                      fontSize: 30,
+                    ),
+                    // Align text to the left
+                    textAlign: TextAlign.left,
                   ),
                 ),
               ),
+
               const SizedBox(height: 30),
 
-              // Email field
+              // Email
               FadeInUp(
                 duration: const Duration(milliseconds: 1200),
-                child: _makeInput(label: "Email Address"),
+                child: credentialInputField(
+                  label: "Email Address",
+                  hintText: "name@email.com",
+                  prefixIcon: Iconsax.sms,
+                ),
               ),
 
-              // Password field
+              // Password
               FadeInUp(
                 duration: const Duration(milliseconds: 1300),
-                child: _makeInput(label: "Password", obscureText: true),
+                child: credentialInputField(
+                  label: "Password",
+                  obscureText: true,
+                  hintText: "Enter Password",
+                  prefixIcon: Iconsax.lock_14,
+                ),
               ),
-              const SizedBox(height: 20),
 
-              // Sign In button
+              const SizedBox(height: 30),
+
+              // Sign In button (use constants for style and size)
               FadeInUp(
                 duration: const Duration(milliseconds: 1400),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 55,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kButtonFillColor,
-                      foregroundColor: kDarkBgColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    onPressed: () {
-                      // Sign in functionality (placeholder)
-                    },
-                    child: const Text(
-                      "Sign In",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                child: Center(
+                  // Use SizedBox to set the button’s width/height from constants
+                  child: SizedBox(
+                    width: kButtonWidth,
+                    height: kButtonHeight,
+                    child: ElevatedButton(
+                      style: kCredentialButtonStyle,
+                      onPressed: () {
+                        // Sign in functionality (placeholder)
+                      },
+                      child: Text(
+                        "Sign In",
+                        style: kCredentialButtonText.copyWith(
+                          color: kDarkBgColor, // Ensure text is dark on gold
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-
-              const SizedBox(height: 15),
 
               // "New to our World? Sign Up"
               FadeInUp(
@@ -99,7 +114,7 @@ class LoginPage extends StatelessWidget {
                           TextSpan(
                             text: "Sign Up",
                             style: TextStyle(
-                              color: kButtonFillColor,
+                              color: kQuickAccessCredentialTextColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -113,46 +128,6 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _makeInput({
-    required String label,
-    bool obscureText = false,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.grey[400],
-            fontSize: 14,
-          ),
-        ),
-        const SizedBox(height: 5),
-        TextField(
-          style: const TextStyle(color: Colors.white),
-          obscureText: obscureText,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey[800],
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 15,
-              horizontal: 15,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade700),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade700),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
     );
   }
 }

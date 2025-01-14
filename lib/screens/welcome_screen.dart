@@ -26,7 +26,7 @@ class WelcomePage extends StatelessWidget {
                 child: Center(
                   child: TypeSet(
                     "Track #Sweet#.\n  Live Smart.",
-                    style: kCredentialScreenHeadingText,
+                    style: kWelcomeScreenHeadingText,
                   ),
                 ),
               ),
