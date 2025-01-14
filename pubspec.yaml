@@ -79,6 +79,7 @@ flutter:
      - family: Sans
        fonts:
          - asset: assets/fonts/InstrumentSans-Bold.ttf
+         - asset: assets/fonts/InstrumentSans-Regular.ttf
 
   #
   # For details regarding fonts from package dependencies,

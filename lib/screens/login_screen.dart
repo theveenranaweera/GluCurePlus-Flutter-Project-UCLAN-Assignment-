@@ -7,10 +7,10 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: darkBg,
+      backgroundColor: kDarkBgColor,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: darkBg,
+        backgroundColor: kDarkBgColor,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(
@@ -61,8 +61,8 @@ class LoginPage extends StatelessWidget {
                   height: 55,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: buttonFill,
-                      foregroundColor: darkBg,
+                      backgroundColor: kButtonFillColor,
+                      foregroundColor: kDarkBgColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -99,7 +99,7 @@ class LoginPage extends StatelessWidget {
                           TextSpan(
                             text: "Sign Up",
                             style: TextStyle(
-                              color: buttonFill,
+                              color: kButtonFillColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
