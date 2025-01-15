@@ -22,6 +22,7 @@ const TextStyle kCredentialButtonText = TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.bold,
     fontFamily: 'Sans',
+    color: kDarkBgColor,
 );
 
 const TextStyle kCredentialCaptionText = TextStyle(

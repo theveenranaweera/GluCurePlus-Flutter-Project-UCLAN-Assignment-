@@ -4,6 +4,7 @@ import 'package:glucure_plus/screens/credential_screens/constants_for_credential
 import 'package:typeset/typeset.dart';
 import 'package:iconsax/iconsax.dart';
 import 'credential_input_field_widget.dart';
+import 'forgot_password_screen.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -78,9 +79,7 @@ class LoginPage extends StatelessWidget {
                       },
                       child: Text(
                         "Sign In",
-                        style: kCredentialButtonText.copyWith(
-                          color: kDarkBgColor, // Ensure text is dark on gold
-                        ),
+                        style: kCredentialButtonText,
                       ),
                     ),
                   ),
@@ -93,7 +92,12 @@ class LoginPage extends StatelessWidget {
                 child: Center(
                   child: TextButton(
                     onPressed: () {
-                      // Navigate to forgot password page if desired
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPasswordPage(),
+                        ),
+                      );
                     },
                     child: const Text(
                       "Forgot Password?",

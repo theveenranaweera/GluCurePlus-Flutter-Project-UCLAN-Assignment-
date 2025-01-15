@@ -86,9 +86,11 @@ class WelcomePage extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => LoginPage()),
                       );
                     },
-                    child: const Text(
+                    child: Text(
                       "Sign In",
-                      style: kCredentialButtonText,
+                      style: kCredentialButtonText.copyWith(
+                        color: kButtonFillColor, // dark text on gold
+                      ),
                     ),
                   ),
                 ),

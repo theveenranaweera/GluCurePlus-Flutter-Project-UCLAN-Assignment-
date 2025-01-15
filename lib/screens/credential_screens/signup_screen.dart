@@ -97,9 +97,7 @@ class SignUpPage extends StatelessWidget {
                       },
                       child: Text(
                         "Sign Up",
-                        style: kCredentialButtonText.copyWith(
-                          color: kDarkBgColor, // Dark text on gold button
-                        ),
+                        style: kCredentialButtonText,
                       ),
                     ),
                   ),
