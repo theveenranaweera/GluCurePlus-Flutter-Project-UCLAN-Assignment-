@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 const Color kDarkBgColor = Color(0xFF13101F);
 const Color kButtonFillColor = Color(0xFFE4B875);
@@ -55,4 +56,10 @@ final ButtonStyle kCredentialOutlinedButtonStyle = OutlinedButton.styleFrom(
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
     ),
+);
+
+const goBackIcon = Icon(
+    Iconsax.arrow_left_2,
+    size: 20,
+    color: Colors.white,
 );

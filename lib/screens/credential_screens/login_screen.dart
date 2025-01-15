@@ -16,11 +16,7 @@ class LoginPage extends StatelessWidget {
         backgroundColor: kDarkBgColor,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(
-            Iconsax.arrow_left_2,
-            size: 20,
-            color: Colors.white,
-          ),
+          icon: goBackIcon,
         ),
       ),
       body: SafeArea(
@@ -32,13 +28,12 @@ class LoginPage extends StatelessWidget {
             children: <Widget>[
               // Heading
               FadeInUp(
-                duration: const Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 500),
                 child: Center(
                   child: TypeSet(
-                    "Let’s #Continue#\n"
-                        "  to track your\n"
-                        " Sugar Intake!",
+                    "Let’s #Continue# \nto track your \nSugar Intake!",
                     style: kCredentialScreenHeadingText,
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
@@ -47,7 +42,7 @@ class LoginPage extends StatelessWidget {
 
               // Email
               FadeInUp(
-                duration: const Duration(milliseconds: 1200),
+                duration: const Duration(milliseconds: 600),
                 child: credentialInputField(
                   label: "Email Address",
                   hintText: "name@email.com",
@@ -57,7 +52,7 @@ class LoginPage extends StatelessWidget {
 
               // Password
               FadeInUp(
-                duration: const Duration(milliseconds: 1300),
+                duration: const Duration(milliseconds: 700),
                 child: credentialInputField(
                   label: "Password",
                   obscureText: true,
@@ -70,7 +65,7 @@ class LoginPage extends StatelessWidget {
 
               // Sign In button (use constants for style and size)
               FadeInUp(
-                duration: const Duration(milliseconds: 1400),
+                duration: const Duration(milliseconds: 800),
                 child: Center(
                   // Use SizedBox to set the button’s width/height from constants
                   child: SizedBox(
@@ -94,7 +89,7 @@ class LoginPage extends StatelessWidget {
 
               // Forgot Password?
               FadeInUp(
-                duration: const Duration(milliseconds: 1500),
+                duration: const Duration(milliseconds: 900),
                 child: Center(
                   child: TextButton(
                     onPressed: () {
@@ -110,7 +105,7 @@ class LoginPage extends StatelessWidget {
 
               // Separator line
               FadeInUp(
-                duration: const Duration(milliseconds: 1600),
+                duration: const Duration(milliseconds: 1000),
                 child: Center(
                   child: Container(
                     width: 290,
@@ -122,7 +117,7 @@ class LoginPage extends StatelessWidget {
 
               // "New to our World? Sign Up"
               FadeInUp(
-                duration: const Duration(milliseconds: 1700),
+                duration: const Duration(milliseconds: 1100),
                 child: Center(
                   child: TextButton(
                     onPressed: () {
