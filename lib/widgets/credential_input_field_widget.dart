@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'constants_for_credential_screens.dart';
+import '../screens/credential_screens/constants_for_credential_screens.dart';
 
 // A reusable TextField input widget for both Login & Signup pages.
 Widget credentialInputField({

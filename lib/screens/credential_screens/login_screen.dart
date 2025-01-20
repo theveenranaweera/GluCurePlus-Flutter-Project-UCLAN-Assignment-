@@ -1,9 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
+import 'package:glucure_plus/screens/main_screens/dashboard/dashboard_screen.dart';
 import 'package:typeset/typeset.dart';
 import 'package:iconsax/iconsax.dart';
-import 'credential_input_field_widget.dart';
+import '../../widgets/credential_input_field_widget.dart';
 import 'forgot_password_screen.dart';
 
 class LoginPage extends StatelessWidget {
@@ -75,7 +76,12 @@ class LoginPage extends StatelessWidget {
                     child: ElevatedButton(
                       style: kCredentialButtonStyle,
                       onPressed: () {
-                        // Sign in functionality (placeholder)
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const DashboardPage(), //FOR TEMPORARILY ONLY
+                          ),
+                        );
                       },
                       child: Text(
                         "Sign In",

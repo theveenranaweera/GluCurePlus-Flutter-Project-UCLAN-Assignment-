@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:typeset/typeset.dart';
 import 'constants_for_credential_screens.dart';
-import 'credential_input_field_widget.dart';
+import '../../widgets/credential_input_field_widget.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);

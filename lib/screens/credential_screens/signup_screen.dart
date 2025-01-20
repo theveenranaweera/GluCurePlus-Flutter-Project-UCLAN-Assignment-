@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:typeset/typeset.dart';
 import 'package:iconsax/iconsax.dart';
 import 'constants_for_credential_screens.dart';
-import 'credential_input_field_widget.dart';
+import '../../widgets/credential_input_field_widget.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key? key}) : super(key: key);
