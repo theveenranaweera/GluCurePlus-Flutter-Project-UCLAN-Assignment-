@@ -5,9 +5,14 @@ import 'package:iconsax/iconsax.dart';
 import 'constants_for_credential_screens.dart';
 import '../../widgets/credential_input_field_widget.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,9 +98,9 @@ class SignUpPage extends StatelessWidget {
                     child: ElevatedButton(
                       style: kCredentialButtonStyle,
                       onPressed: () {
-                        // Sign Up functionality
+                        // Sign Up functionality (placeholder)
                       },
-                      child: Text(
+                      child: const Text(
                         "Sign Up",
                         style: kCredentialButtonText,
                       ),
