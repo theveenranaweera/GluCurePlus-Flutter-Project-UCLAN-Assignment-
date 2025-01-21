@@ -7,8 +7,14 @@ import 'package:iconsax/iconsax.dart';
 import '../../widgets/credential_input_field_widget.dart';
 import 'forgot_password_screen.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +71,10 @@ class LoginPage extends StatelessWidget {
 
               const SizedBox(height: 30),
 
-              // Sign In button (use constants for style and size)
+              // Sign In button
               FadeInUp(
                 duration: const Duration(milliseconds: 800),
                 child: Center(
-                  // Use SizedBox to set the button’s width/height from constants
                   child: SizedBox(
                     width: kButtonWidth,
                     height: kButtonHeight,
@@ -79,7 +84,7 @@ class LoginPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const DashboardPage(), //FOR TEMPORARILY ONLY
+                            builder: (context) => const DashboardPage(),
                           ),
                         );
                       },
@@ -120,7 +125,7 @@ class LoginPage extends StatelessWidget {
                   child: Container(
                     width: 290,
                     height: 1.5,
-                    color: Colors.grey.shade700, // Change to your preferred color
+                    color: Colors.grey.shade700,
                   ),
                 ),
               ),
