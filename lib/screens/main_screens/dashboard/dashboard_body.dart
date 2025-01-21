@@ -4,11 +4,14 @@ import 'package:iconsax/iconsax.dart';
 import 'package:typeset/typeset.dart';
 import '../../../widgets/sugar_item_row_widget.dart';
 
-class DashboardBody extends StatelessWidget {
+class DashboardBody extends StatefulWidget {
   const DashboardBody({Key? key}) : super(key: key);
 
-  /// This method holds your original dashboard screen content
-  /// so we can embed it as Tab 0 in the PageView.
+  @override
+  State<DashboardBody> createState() => _DashboardBodyState();
+}
+
+class _DashboardBodyState extends State<DashboardBody> {
   @override
   Widget build(BuildContext context) {
     final double dailyGoal = 35.0;
@@ -39,7 +42,7 @@ class DashboardBody extends StatelessWidget {
                       // Dark/Light Mode Icon or a "moon" icon?
                       IconButton(
                         onPressed: () {
-                          // Possibly toggle dark/light theme
+                          // Possibly toggle dark/light theme in future
                         },
                         icon: const Icon(
                           Iconsax.moon,
@@ -176,8 +179,7 @@ class DashboardBody extends StatelessWidget {
               Container(
                 width: double.infinity,
                 constraints: const BoxConstraints(maxHeight: 160),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   color: const Color(0xFFBBB2CC),
                   borderRadius: BorderRadius.circular(12),
