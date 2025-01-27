@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: kDarkBgColor,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: goBackIcon,
+          icon: kGoBackIconStyle,
         ),
       ),
       body: SafeArea(

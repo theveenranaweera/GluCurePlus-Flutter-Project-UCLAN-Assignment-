@@ -21,7 +21,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         backgroundColor: kDarkBgColor,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: goBackIcon,
+          icon: kGoBackIconStyle,
         ),
       ),
       body: SafeArea(

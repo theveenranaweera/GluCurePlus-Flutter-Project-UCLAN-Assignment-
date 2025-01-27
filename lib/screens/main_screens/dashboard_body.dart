@@ -3,6 +3,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:typeset/typeset.dart';
 import '../../widgets/sugar_item_row_widget.dart';
+import 'constants_for_main_screens.dart';
 
 class DashboardBody extends StatefulWidget {
   const DashboardBody({super.key});
@@ -31,11 +32,16 @@ class _DashboardBodyState extends State<DashboardBody> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Profile avatar
-                      CircleAvatar(
-                        radius: 28,
-                        backgroundColor: Colors.grey[300],
-                        backgroundImage: const AssetImage(
-                          'assets/images/default_profile_image.png',
+                      GestureDetector(
+                        onTap: () {
+                          // functionality to go to profile page
+                        },
+                        child: CircleAvatar(
+                          radius: 28,
+                          backgroundColor: Colors.grey[300],
+                          backgroundImage: const AssetImage(
+                            'assets/images/default_profile_image.png',
+                          ),
                         ),
                       ),
 
@@ -61,11 +67,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                       // "Your Sugar Data"
                       TypeSet(
                         "Your *Sugar* Data",
-                        style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.grey[900],
-                          fontFamily: 'Sans',
-                        ),
+                        style: kMainScreenHeadingText,
                       ),
 
                       // This could be a DropDownMenuButton
@@ -105,7 +107,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                 height: 360,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF694B5D),
+                  color: kDarkPurpleBgColor,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 alignment: Alignment.center,
@@ -140,8 +142,8 @@ class _DashboardBodyState extends State<DashboardBody> {
                           ],
                         ),
                       ),
-                      progressColor: const Color(0xFFCB9CA3),
-                      backgroundColor: const Color(0xFF5B3E4F),
+                      progressColor: kProgressBarCompleteColor,
+                      backgroundColor: kProgressBarIncompleteColor,
                       circularStrokeCap: CircularStrokeCap.round,
                     ),
                   ],
@@ -158,12 +160,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                   children: [
                     Text(
                       "SUGAR INTAKE",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontFamily: 'Sans',
-                      ),
+                      style: kMainScreenSubHeadingText,
                     ),
                     IconButton(
                       onPressed: () {
@@ -181,7 +178,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                 constraints: const BoxConstraints(maxHeight: 160),
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFBBB2CC),
+                  color: kLightPurpleBgColor,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: SingleChildScrollView(

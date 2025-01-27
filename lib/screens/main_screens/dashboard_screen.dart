@@ -4,6 +4,7 @@ import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_not
 import '../../widgets/custom_notch_nav_bar_widget.dart';
 import 'dashboard_body.dart';
 import 'add_sugar/add_sugar_screen.dart';
+import 'constants_for_main_screens.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -48,7 +49,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE4E5E0),
+      backgroundColor: kOffWhiteBgColor,
 
       /// Wrap multiple pages in a PageView to swipe or jump via the bottom bar
       body: PageView(
@@ -85,14 +86,22 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ],
 
+        // Handle taps using animateToPage
+        // onTap: (index) {
+        //   _pageController.animateToPage(
+        //     index,
+        //     duration: const Duration(milliseconds: 300), // Smooth animation
+        //     curve: Curves.easeInOut, // Ease-in-out effect
+        //   );
+        // },
+
         // Optional styling
-        barColor: const Color(0xFF262135),
-        notchColor: const Color(0xFF262135),
+        barColor: kNavBarBgColor,
+        notchColor: kNavBarBgColor,
         showLabel: true,
         kBottomRadius: 28.0,
         kIconSize: 24.0,
         bottomBarWidth: 500,
-        // etc. if needed
       ),
     );
   }

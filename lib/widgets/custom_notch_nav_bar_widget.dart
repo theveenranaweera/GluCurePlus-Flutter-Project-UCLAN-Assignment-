@@ -5,6 +5,8 @@ import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_not
 /// A reusable widget that wraps the [AnimatedNotchBottomBar]
 /// and handles the onTap callback to jump the [PageController].
 class CustomNotchNavBar extends StatelessWidget {
+  //final Function(int) onTap;
+
   /// The [NotchBottomBarController] required by the package
   final NotchBottomBarController controller;
 
@@ -49,6 +51,7 @@ class CustomNotchNavBar extends StatelessWidget {
 
   const CustomNotchNavBar({
     Key? key,
+    //required this.onTap,
     required this.controller,
     required this.pageController,
     required this.bottomBarItems,
