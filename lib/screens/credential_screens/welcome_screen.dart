@@ -6,7 +6,7 @@ import 'constants_for_credential_screens.dart';
 import 'package:typeset/typeset.dart';
 
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+  const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

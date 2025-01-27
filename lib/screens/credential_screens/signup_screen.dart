@@ -6,7 +6,7 @@ import 'constants_for_credential_screens.dart';
 import '../../widgets/credential_input_field_widget.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({super.key});
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();

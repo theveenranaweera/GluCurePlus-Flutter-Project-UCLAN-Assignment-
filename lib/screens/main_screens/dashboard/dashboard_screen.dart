@@ -5,7 +5,7 @@ import '../../../widgets/custom_notch_nav_bar_widget.dart';
 import 'dashboard_body.dart';
 
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({Key? key}) : super(key: key);
+  const DashboardPage({super.key});
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();

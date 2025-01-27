@@ -5,7 +5,7 @@ import 'package:typeset/typeset.dart';
 import '../../../widgets/sugar_item_row_widget.dart';
 
 class DashboardBody extends StatefulWidget {
-  const DashboardBody({Key? key}) : super(key: key);
+  const DashboardBody({super.key});
 
   @override
   State<DashboardBody> createState() => _DashboardBodyState();

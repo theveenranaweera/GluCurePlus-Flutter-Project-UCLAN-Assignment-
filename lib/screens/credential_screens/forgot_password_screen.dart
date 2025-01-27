@@ -6,7 +6,7 @@ import 'constants_for_credential_screens.dart';
 import '../../widgets/credential_input_field_widget.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({Key? key}) : super(key: key);
+  const ForgotPasswordPage({super.key});
 
   @override
   State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();

@@ -8,7 +8,7 @@ import '../../widgets/credential_input_field_widget.dart';
 import 'forgot_password_screen.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
