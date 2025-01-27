@@ -47,7 +47,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               // Email Address
               FadeInUp(
                 duration: const Duration(milliseconds: 600),
-                child: credentialInputField(
+                child: CredentialInputField(
                   label: "Email Address",
                   hintText: "name@email.com",
                   prefixIcon: Iconsax.sms,

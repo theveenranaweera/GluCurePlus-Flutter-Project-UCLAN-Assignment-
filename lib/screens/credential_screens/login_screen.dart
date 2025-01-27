@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
-import 'package:glucure_plus/screens/main_screens/dashboard/dashboard_screen.dart';
+import 'package:glucure_plus/screens/main_screens/dashboard_screen.dart';
 import 'package:typeset/typeset.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../widgets/credential_input_field_widget.dart';
@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
               // Email
               FadeInUp(
                 duration: const Duration(milliseconds: 600),
-                child: credentialInputField(
+                child: CredentialInputField(
                   label: "Email Address",
                   hintText: "name@email.com",
                   prefixIcon: Iconsax.sms,
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
               // Password
               FadeInUp(
                 duration: const Duration(milliseconds: 700),
-                child: credentialInputField(
+                child: CredentialInputField(
                   label: "Password",
                   obscureText: true,
                   hintText: "Enter Password",

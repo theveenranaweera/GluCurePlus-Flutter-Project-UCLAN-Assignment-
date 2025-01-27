@@ -47,7 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
               // Full Name
               FadeInUp(
                 duration: const Duration(milliseconds: 600),
-                child: credentialInputField(
+                child: CredentialInputField(
                   label: "Name",
                   hintText: "Enter Full Name",
                   prefixIcon: Iconsax.user,
@@ -57,7 +57,7 @@ class _SignUpPageState extends State<SignUpPage> {
               // Email
               FadeInUp(
                 duration: const Duration(milliseconds: 700),
-                child: credentialInputField(
+                child: CredentialInputField(
                   label: "Email Address",
                   hintText: "name@email.com",
                   prefixIcon: Iconsax.sms,
@@ -67,7 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
               // Password
               FadeInUp(
                 duration: const Duration(milliseconds: 800),
-                child: credentialInputField(
+                child: CredentialInputField(
                   label: "Password",
                   obscureText: true,
                   hintText: "Enter Password",
@@ -78,7 +78,7 @@ class _SignUpPageState extends State<SignUpPage> {
               // Confirm Password
               FadeInUp(
                 duration: const Duration(milliseconds: 900),
-                child: credentialInputField(
+                child: CredentialInputField(
                   label: "Confirm Password",
                   obscureText: true,
                   hintText: "Enter Password Again",

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
-import '../../../widgets/custom_notch_nav_bar_widget.dart';
+import '../../widgets/custom_notch_nav_bar_widget.dart';
 import 'dashboard_body.dart';
+import 'add_sugar/add_sugar_screen.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -33,12 +34,7 @@ class _DashboardPageState extends State<DashboardPage> {
     DashboardBody(),
 
     // -- Tab 1: Add Sugar Page
-    const Center(
-      child: Text(
-        "Add Sugar Page",
-        style: TextStyle(fontSize: 24),
-      ),
-    ),
+    AddSugarScreen(),
 
     // -- Tab 2: Analytics page
     const Center(

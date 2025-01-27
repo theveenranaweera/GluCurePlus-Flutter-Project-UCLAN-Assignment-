@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:typeset/typeset.dart';
-import '../../../widgets/sugar_item_row_widget.dart';
+import '../../widgets/sugar_item_row_widget.dart';
 
 class DashboardBody extends StatefulWidget {
   const DashboardBody({super.key});
