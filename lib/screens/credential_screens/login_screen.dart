@@ -1,14 +1,15 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
+import 'package:glucure_plus/screens/credential_screens/signup_screen.dart';
 import 'package:glucure_plus/screens/main_screens/dashboard_screen.dart';
 import 'package:typeset/typeset.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../widgets/credential_input_field_widget.dart';
+import '/widgets/credential_input_field_widget.dart';
 import 'forgot_password_screen.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  static const String navID = 'login_screen';
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -81,12 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton(
                       style: kCredentialButtonStyle,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const DashboardPage(),
-                          ),
-                        );
+                        Navigator.pushNamed(context, DashboardPage.navID);
                       },
                       child: Text(
                         "Sign In",
@@ -103,12 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Center(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ForgotPasswordPage(),
-                        ),
-                      );
+                      Navigator.pushNamed(context, ForgotPasswordPage.navID);
                     },
                     child: const Text(
                       "Forgot Password?",
@@ -136,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Center(
                   child: TextButton(
                     onPressed: () {
-                      // Possibly go to signup
+                      Navigator.pushNamed(context, SignUpPage.navID);
                     },
                     child: Text.rich(
                       TextSpan(

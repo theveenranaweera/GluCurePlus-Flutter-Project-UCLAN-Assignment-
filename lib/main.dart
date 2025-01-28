@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:glucure_plus/screens/credential_screens/forgot_password_screen.dart';
+import 'screens/main_screens/add_sugar/add_sugar_screen.dart';
+import 'screens/main_screens/dashboard_screen.dart';
+import 'screens/credential_screens/signup_screen.dart';
+import 'screens/credential_screens/login_screen.dart';
 import 'screens/credential_screens/welcome_screen.dart';
+
 
 void main() {
   runApp(const GluCurePlus());
@@ -20,7 +26,15 @@ class GluCurePlus extends StatelessWidget {
         brightness: Brightness.dark,
       ),
 
-      home: const WelcomePage(),
+      initialRoute: WelcomePage.navID,
+      routes: {
+        WelcomePage.navID: (context) => WelcomePage(),
+        LoginPage.navID: (context) => LoginPage(),
+        ForgotPasswordPage.navID: (context) => ForgotPasswordPage(),
+        SignUpPage.navID: (context) => SignUpPage(),
+        DashboardPage.navID: (context) => DashboardPage(),
+        AddSugarScreen.navID: (context) => AddSugarScreen(),
+      },
     );
   }
 }

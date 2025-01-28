@@ -6,7 +6,7 @@ import 'constants_for_credential_screens.dart';
 import 'package:typeset/typeset.dart';
 
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
+  static const String navID = 'welcome_screen';
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +57,7 @@ class WelcomePage extends StatelessWidget {
                   child: ElevatedButton(
                     style: kCredentialButtonStyle, // Use the constant style
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
-                      );
+                      Navigator.pushNamed(context, SignUpPage.navID);
                     },
                     child: const Text(
                       "Get Started",
@@ -81,10 +78,7 @@ class WelcomePage extends StatelessWidget {
                   child: OutlinedButton(
                     style: kCredentialOutlinedButtonStyle, // Use the constant style
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
+                      Navigator.pushNamed(context, LoginPage.navID);
                     },
                     child: Text(
                       "Sign In",

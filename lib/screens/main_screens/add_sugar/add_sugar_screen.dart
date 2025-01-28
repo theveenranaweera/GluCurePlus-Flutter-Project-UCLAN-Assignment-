@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 class AddSugarScreen extends StatefulWidget {
-  const AddSugarScreen({super.key});
+  static const String navID = 'add_sugar_screen';
 
   @override
   State<AddSugarScreen> createState() => _AddSugarScreenState();
@@ -11,10 +11,8 @@ class AddSugarScreen extends StatefulWidget {
 class _AddSugarScreenState extends State<AddSugarScreen> {
   /// Track user inputs if you like (e.g., with Controllers).
   /// For now, we just show placeholders:
-  final TextEditingController _productNameController =
-  TextEditingController();
-  final TextEditingController _sugarAmountController =
-  TextEditingController();
+  final TextEditingController _productNameController = TextEditingController();
+  final TextEditingController _sugarAmountController = TextEditingController();
 
   /// Holds the selected time as a string. By default, we use current time.
   late String _timeString;

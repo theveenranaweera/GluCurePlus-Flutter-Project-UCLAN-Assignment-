@@ -7,7 +7,7 @@ import 'add_sugar/add_sugar_screen.dart';
 import 'constants_for_main_screens.dart';
 
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({super.key});
+  static const String navID = 'dashboard_screen';
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
