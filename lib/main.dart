@@ -5,9 +5,11 @@ import 'screens/main_screens/dashboard_screen.dart';
 import 'screens/credential_screens/signup_screen.dart';
 import 'screens/credential_screens/login_screen.dart';
 import 'screens/credential_screens/welcome_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensures everything is properly set up before Firebase initializes
+  await Firebase.initializeApp(); // Initialize Firebase
   runApp(const GluCurePlus());
 }
 

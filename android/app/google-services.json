@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "385392350212",
+    "project_id": "glucureplus",
+    "storage_bucket": "glucureplus.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385392350212:android:7c34c83cb9c1afab559151",
+        "android_client_info": {
+          "package_name": "com.example.glucure_plus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwoNQlFBL_jU1oFDuaiNHf_S-6Bx6IbiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
