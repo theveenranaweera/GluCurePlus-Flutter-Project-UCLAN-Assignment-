@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import 'signup_screen.dart';
 import 'constants_for_credential_screens.dart';
-import 'package:typeset/typeset.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class WelcomePage extends StatelessWidget {
   static const String navID = 'welcome_screen';
@@ -24,12 +24,19 @@ class WelcomePage extends StatelessWidget {
               FadeInUp(
                 duration: const Duration(milliseconds: 1000),
                 child: Center(
-                  child: TypeSet(
-                    "Track #Sweet#.\n  Live Smart.",
-                    style: kWelcomeScreenHeadingText,
+                  child: AnimatedTextKit(
+                    animatedTexts: [
+                      TypewriterAnimatedText(
+                        'Track Sweet.\n  Live Smart.',
+                        textStyle: kWelcomeScreenHeadingText,  // Keep the same style
+                        speed: const Duration(milliseconds: 130),  // Adjust animation speed
+                      ),
+                    ],
+                    repeatForever: true,
                   ),
                 ),
               ),
+
 
               const SizedBox(height: 20),
 
