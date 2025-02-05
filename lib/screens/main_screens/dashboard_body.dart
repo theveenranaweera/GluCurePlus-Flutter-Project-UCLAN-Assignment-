@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:typeset/typeset.dart';
-import '../../widgets/sugar_item_row_widget.dart';
-import 'constants_for_main_screens.dart';
+import 'package:glucure_plus/widgets/sugar_item_row_widget.dart';
+import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
+
 
 class DashboardBody extends StatefulWidget {
   const DashboardBody({super.key});

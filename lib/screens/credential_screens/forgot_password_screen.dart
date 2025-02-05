@@ -2,8 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:typeset/typeset.dart';
-import 'constants_for_credential_screens.dart';
-import '../../widgets/credential_input_field_widget.dart';
+import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
+import 'package:glucure_plus/widgets/credential_input_field_widget.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   static const String navID = 'forgot_password_screen';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/credential_screens/constants_for_credential_screens.dart';
+import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
 
 class CredentialInputField extends StatelessWidget {
   final String label;

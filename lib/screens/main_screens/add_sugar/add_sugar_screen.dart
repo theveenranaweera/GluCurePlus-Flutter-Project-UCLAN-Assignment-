@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
 import 'package:typeset/typeset.dart';
+import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
 
 class AddSugarScreen extends StatefulWidget {
   static const String navID = 'add_sugar_screen';

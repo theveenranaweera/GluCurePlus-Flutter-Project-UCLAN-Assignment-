@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
-import '../../widgets/custom_notch_nav_bar_widget.dart';
-import 'dashboard_body.dart';
-import 'add_sugar/add_sugar_screen.dart';
-import 'constants_for_main_screens.dart';
+import 'package:glucure_plus/widgets/custom_notch_nav_bar_widget.dart';
+import 'package:glucure_plus/screens/main_screens/dashboard_body.dart';
+import 'package:glucure_plus/screens/main_screens/add_sugar/add_sugar_screen.dart';
+import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
 
 class DashboardPage extends StatefulWidget {
   static const String navID = 'dashboard_screen';

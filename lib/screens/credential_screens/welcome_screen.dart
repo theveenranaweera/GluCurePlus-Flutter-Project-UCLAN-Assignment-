@@ -1,9 +1,9 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
-import 'signup_screen.dart';
-import 'constants_for_credential_screens.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
+import 'package:glucure_plus/screens/credential_screens/login_screen.dart';
+import 'package:glucure_plus/screens/credential_screens/signup_screen.dart';
 
 class WelcomePage extends StatelessWidget {
   static const String navID = 'welcome_screen';
