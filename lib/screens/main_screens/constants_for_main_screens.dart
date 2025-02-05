@@ -24,3 +24,5 @@ const kLightPurpleBgColor = Color(0xFFBBB2CC);
 const kOffWhiteBgColor = Color(0xFFE4E5E0);
 
 const kNavBarBgColor = Color(0xFF262135);
+
+const kLightGreyButtonBgColor = Color(0x32656565);
