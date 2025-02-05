@@ -71,17 +71,17 @@ class _DashboardPageState extends State<DashboardPage> {
         bottomBarItems: [
           BottomBarItem(
             inActiveItem: const Icon(Iconsax.home, color: Colors.grey),
-            activeItem: const Icon(Iconsax.home, color: Colors.white),
+            activeItem: const Icon(Iconsax.home_15, color: Colors.white),
             itemLabel: 'Home',
           ),
           BottomBarItem(
             inActiveItem: const Icon(Iconsax.add, color: Colors.grey),
-            activeItem: const Icon(Iconsax.add, color: Colors.white),
+            activeItem: const Icon(Iconsax.add5, color: Colors.white),
             itemLabel: 'Add',
           ),
           BottomBarItem(
             inActiveItem: const Icon(Iconsax.diagram, color: Colors.grey),
-            activeItem: const Icon(Iconsax.diagram, color: Colors.white),
+            activeItem: const Icon(Iconsax.diagram5, color: Colors.white),
             itemLabel: 'Analytics',
           ),
         ],
