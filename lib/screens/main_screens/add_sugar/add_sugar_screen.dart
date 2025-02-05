@@ -87,7 +87,7 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFBBB2CC), // a light purple
+                    color: kLightPurpleBgColor,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
@@ -95,6 +95,10 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                     children: [
                       // Product Name field
                       TextField(
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Sans',
+                        ),
                         controller: _productNameController,
                         decoration: const InputDecoration(
                           hintText: "Product Name",
@@ -109,6 +113,10 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
 
                       // Sugar Amount field
                       TextField(
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Sans',
+                        ),
                         controller: _sugarAmountController,
                         decoration: const InputDecoration(
                           hintText: "Sugar Amount (g)",
@@ -123,7 +131,7 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                       const SizedBox(height: 16),
 
                       // Time row
-                      GestureDetector( // CONVERT THIS TO A DROP DOWN LIST
+                      GestureDetector( // CONVERT THIS TO A DROP DOWN LIST OR SOMETHING THAT SETS TIME
                         onTap: () async {
                           // Open a time picker if you like:
                           // final newTime = await showTimePicker(...);
