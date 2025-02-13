@@ -5,6 +5,7 @@ import 'package:glucure_plus/widgets/custom_notch_nav_bar_widget.dart';
 import 'package:glucure_plus/screens/main_screens/dashboard_body.dart';
 import 'package:glucure_plus/screens/main_screens/add_sugar/add_sugar_screen.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DashboardPage extends StatefulWidget {
   static const String navID = 'dashboard_screen';
@@ -14,6 +15,21 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+
+  late User loggedInUser;
+
+  void getCurrentUser() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        loggedInUser = user;
+        print(loggedInUser.email);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   /// The controller for the NotchBottomBar
   final NotchBottomBarController _controller = NotchBottomBarController(index: 0);
 

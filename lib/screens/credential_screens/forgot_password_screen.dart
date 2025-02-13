@@ -51,6 +51,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   label: "Email Address",
                   hintText: "name@email.com",
                   prefixIcon: Iconsax.sms,
+                  keyboardType: TextInputType.emailAddress,
                 ),
               ),
 

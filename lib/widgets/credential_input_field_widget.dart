@@ -3,16 +3,20 @@ import 'package:glucure_plus/screens/credential_screens/constants_for_credential
 
 class CredentialInputField extends StatelessWidget {
   final String label;
-  final bool obscureText;
   final String hintText;
   final IconData? prefixIcon;
+  final bool obscureText;
+  final TextEditingController? controller;
+  final TextInputType keyboardType;
 
   const CredentialInputField({
     Key? key,
     required this.label,
-    this.obscureText = false,
     required this.hintText,
-    required this.prefixIcon,
+    this.prefixIcon,
+    this.obscureText = false,
+    this.controller,
+    this.keyboardType = TextInputType.text,
   }) : super(key: key);
 
   @override
@@ -33,6 +37,8 @@ class CredentialInputField extends StatelessWidget {
 
         // TextField
         TextField(
+          controller: controller,
+          keyboardType: keyboardType,
           style: const TextStyle(color: Colors.white),
           obscureText: obscureText,
           decoration: InputDecoration(

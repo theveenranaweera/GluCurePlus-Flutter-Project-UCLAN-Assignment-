@@ -8,7 +8,7 @@ import 'screens/credential_screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensures everything is properly set up before Firebase initializes
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(); // Initialize Firebase
   runApp(const GluCurePlus());
 }
