@@ -227,48 +227,7 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
-
-                // "FAVOURITES" label
-                const Text(
-                  "FAVOURITES",
-                  style: kMainScreenSubHeadingText,
-                ),
-
-                const SizedBox(height: 10),
-
-                // Add Favorites button
-                GestureDetector(
-                  onTap: () {
-                    // e.g. open favorites screen or show a modal
-                  },
-                  child: Container(
-                    height: 65,
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: kLightGreyButtonBgColor,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Iconsax.add_circle, color: Colors.black54),
-                        SizedBox(width: 8),
-                        Text(
-                          "ADD FAVORITES",
-                          style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Sans'
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                // You can add more spacing or additional sections
-                const SizedBox(height: 40),
+                // const SizedBox(height: 40),
               ],
             ),
           ),
