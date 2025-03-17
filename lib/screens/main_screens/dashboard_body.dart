@@ -32,39 +32,6 @@ class _DashboardBodyState extends State<DashboardBody> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Profile avatar
-                      GestureDetector(
-                        onTap: () {
-                          // functionality to go to profile page
-                        },
-                        child: CircleAvatar(
-                          radius: 28,
-                          backgroundColor: Colors.grey[300],
-                          backgroundImage: const AssetImage(
-                            'assets/images/default_profile_image.png',
-                          ),
-                        ),
-                      ),
-
-                      // Dark/Light Mode Icon or a "moon" icon?
-                      IconButton(
-                        onPressed: () {
-                          // Possibly toggle dark/light theme in future
-                        },
-                        icon: const Icon(
-                          Iconsax.moon,
-                          size: 27,
-                        ),
-                        color: Colors.black54,
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 5),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
                       // "Your Sugar Data"
                       TypeSet(
                         "Your *Sugar* Data",

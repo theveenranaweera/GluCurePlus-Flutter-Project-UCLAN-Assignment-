@@ -53,10 +53,10 @@ class _DashboardPageState extends State<DashboardPage> {
     // -- Tab 1: Add Sugar Page
     AddSugarScreen(),
 
-    // -- Tab 2: Analytics page
+    // -- Tab 2: Settings page
     const Center(
       child: Text(
-        "Analytics Page",
+        "Settings Page",
         style: TextStyle(fontSize: 24),
       ),
     ),
@@ -96,9 +96,9 @@ class _DashboardPageState extends State<DashboardPage> {
             itemLabel: 'Add',
           ),
           BottomBarItem(
-            inActiveItem: const Icon(Iconsax.diagram, color: Colors.grey),
-            activeItem: const Icon(Iconsax.diagram5, color: Colors.white),
-            itemLabel: 'Analytics',
+            inActiveItem: const Icon(Iconsax.setting_2, color: Colors.grey),
+            activeItem: const Icon(Iconsax.setting_21, color: Colors.white),
+            itemLabel: 'Settings',
           ),
         ],
 
