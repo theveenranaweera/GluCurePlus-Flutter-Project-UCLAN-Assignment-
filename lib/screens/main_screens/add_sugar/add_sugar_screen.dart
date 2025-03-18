@@ -50,10 +50,10 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
       // Light background from your wireframe
       backgroundColor: kOffWhiteBgColor,
 
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -66,7 +66,7 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                       "*Add* Sugar Data",
                       style: kMainScreenHeadingText,
                     ),
-
+            
                     // Barcode icon
                     IconButton(
                       onPressed: () {
@@ -79,9 +79,9 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                     ),
                   ],
                 ),
-
+            
                 const SizedBox(height: 10),
-
+            
                 // Big container for Product Name, Sugar Amount, Time, ADD button
                 Container(
                   width: double.infinity,
@@ -108,9 +108,9 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                           ),
                         ),
                       ),
-
+            
                       const SizedBox(height: 16),
-
+            
                       // Sugar Amount field
                       TextField(
                         style: TextStyle(
@@ -124,12 +124,12 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                             color: Color(0xBE373737),
                             fontFamily: 'Sans',
                           ),
-
+            
                         ),
                         keyboardType: TextInputType.number,
                       ),
                       const SizedBox(height: 16),
-
+            
                       // Time row
                       GestureDetector( // CONVERT THIS TO A DROP DOWN LIST OR SOMETHING THAT SETS TIME
                         onTap: () async {
@@ -158,7 +158,7 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-
+            
                       // ADD button
                       SizedBox(
                         height: 50,
@@ -190,9 +190,9 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                     ],
                   ),
                 ),
-
+            
                 const SizedBox(height: 20),
-
+            
                 // Search Food Database button
                 GestureDetector(
                   onTap: () {
@@ -211,9 +211,9 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                             Iconsax.search_normal_1,
                             color: Colors.black54
                         ),
-
+            
                         SizedBox(width: 10),
-
+            
                         Text(
                           "Search Food Database",
                           style: TextStyle(
@@ -226,7 +226,7 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                     ),
                   ),
                 ),
-
+            
                 // const SizedBox(height: 40),
               ],
             ),

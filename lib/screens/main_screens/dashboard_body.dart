@@ -20,10 +20,10 @@ class _DashboardBodyState extends State<DashboardBody> {
     final double currentIntake = 27.0;
     final double progress = currentIntake / dailyGoal; // 0.7714...
 
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
-        child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -37,7 +37,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                         "Your *Sugar* Data",
                         style: kMainScreenHeadingText,
                       ),
-
+          
                       // This could be a DropDownMenuButton
                       TextButton.icon(
                         onPressed: () {
@@ -66,9 +66,9 @@ class _DashboardBodyState extends State<DashboardBody> {
                   ),
                 ],
               ),
-
+          
               const SizedBox(height: 13),
-
+          
               // Circular progress card
               Container(
                 width: double.infinity,
@@ -117,9 +117,9 @@ class _DashboardBodyState extends State<DashboardBody> {
                   ],
                 ),
               ),
-
+          
               const SizedBox(height: 10),
-
+          
               // Daily sugar intake list
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -140,7 +140,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                   ],
                 ),
               ),
-
+          
               Container(
                 width: double.infinity,
                 constraints: const BoxConstraints(maxHeight: 160),

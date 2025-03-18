@@ -67,7 +67,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       backgroundColor: kOffWhiteBgColor,
 
-      /// Wrap multiple pages in a PageView to swipe or jump via the bottom bar
+      /// Wrap multiple pages in a PageView to jump via the bottom bar
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
