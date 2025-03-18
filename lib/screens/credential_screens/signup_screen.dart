@@ -46,149 +46,151 @@ class _SignUpPageState extends State<SignUpPage> {
             icon: kGoBackIconStyle,
           ),
         ),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                // Heading
-                FadeInUp(
-                  duration: const Duration(milliseconds: 500),
-                  child: Center(
-                    child: TypeSet(
-                      "#Join# the World \nof GluCure+",
-                      style: kCredentialScreenHeadingText,
-                      textAlign: TextAlign.center,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  // Heading
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 500),
+                    child: Center(
+                      child: TypeSet(
+                        "#Join# the World \nof GluCure+",
+                        style: kCredentialScreenHeadingText,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                // Full Name (commented out)
-                // FadeInUp(
-                //   duration: const Duration(milliseconds: 600),
-                //   child: CredentialInputField(
-                //     label: "Name",
-                //     hintText: "Enter Full Name",
-                //     prefixIcon: Iconsax.user,
-                //   ),
-                // ),
-                // Email
-                FadeInUp(
-                  duration: const Duration(milliseconds: 700),
-                  child: CredentialInputField(
-                    label: "Email Address",
-                    hintText: "name@email.com",
-                    prefixIcon: Iconsax.sms,
-                    // Pass the controller to capture user input.
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
+                  const SizedBox(height: 30),
+                  // Full Name (commented out)
+                  // FadeInUp(
+                  //   duration: const Duration(milliseconds: 600),
+                  //   child: CredentialInputField(
+                  //     label: "Name",
+                  //     hintText: "Enter Full Name",
+                  //     prefixIcon: Iconsax.user,
+                  //   ),
+                  // ),
+                  // Email
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 700),
+                    child: CredentialInputField(
+                      label: "Email Address",
+                      hintText: "name@email.com",
+                      prefixIcon: Iconsax.sms,
+                      // Pass the controller to capture user input.
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
                   ),
-                ),
-                // Password
-                FadeInUp(
-                  duration: const Duration(milliseconds: 800),
-                  child: CredentialInputField(
-                    label: "Password",
-                    obscureText: true,
-                    hintText: "Enter Password",
-                    prefixIcon: Iconsax.lock_14,
-                    controller: _passwordController,
+                  // Password
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 800),
+                    child: CredentialInputField(
+                      label: "Password",
+                      obscureText: true,
+                      hintText: "Enter Password",
+                      prefixIcon: Iconsax.lock_14,
+                      controller: _passwordController,
+                    ),
                   ),
-                ),
-                // Confirm Password
-                FadeInUp(
-                  duration: const Duration(milliseconds: 900),
-                  child: CredentialInputField(
-                    label: "Confirm Password",
-                    obscureText: true,
-                    hintText: "Enter Password Again",
-                    prefixIcon: Iconsax.lock_14,
-                    controller: _confirmPasswordController,
+                  // Confirm Password
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 900),
+                    child: CredentialInputField(
+                      label: "Confirm Password",
+                      obscureText: true,
+                      hintText: "Enter Password Again",
+                      prefixIcon: Iconsax.lock_14,
+                      controller: _confirmPasswordController,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                // Sign Up button with Firebase integration
-                FadeInUp(
-                  duration: const Duration(milliseconds: 1000),
-                  child: Center(
-                    child: SizedBox(
-                      width: kButtonWidth,
-                      height: kButtonHeight,
-                      child: ElevatedButton(
-                        style: kCredentialButtonStyle,
-                        onPressed: () async {
-                          setState(() {
-                            showLoadingSpinner = true;
-                          });
-
-                          // Check if the password and confirm password fields match.
-                          if (_passwordController.text != _confirmPasswordController.text) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Passwords do not match")),
-                            );
-
+                  const SizedBox(height: 30),
+                  // Sign Up button with Firebase integration
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 1000),
+                    child: Center(
+                      child: SizedBox(
+                        width: kButtonWidth,
+                        height: kButtonHeight,
+                        child: ElevatedButton(
+                          style: kCredentialButtonStyle,
+                          onPressed: () async {
                             setState(() {
-                              showLoadingSpinner = false;
+                              showLoadingSpinner = true;
                             });
-                            return;
-                          }
-                          try {
-                            // Create a new user using Firebase Authentication.
-                            final newUser = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                              email: _emailController.text.trim(),
-                              password: _passwordController.text,
-                            );
-                            // If sign-up is successful, navigate to the Dashboard.
-                            Navigator.pushNamed(context, DashboardPage.navID);
-
-                            setState(() {
-                              showLoadingSpinner = false;
-                            });
-
-                          } catch (error) {
-                            // If an error occurs, display it in a SnackBar.
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Sign Up Failed: ${error.toString()}")),
-                            );
-
-                            setState(() {
-                              showLoadingSpinner = false;
-                            });
-                          }
+          
+                            // Check if the password and confirm password fields match.
+                            if (_passwordController.text != _confirmPasswordController.text) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Passwords do not match")),
+                              );
+          
+                              setState(() {
+                                showLoadingSpinner = false;
+                              });
+                              return;
+                            }
+                            try {
+                              // Create a new user using Firebase Authentication.
+                              final newUser = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text,
+                              );
+                              // If sign-up is successful, navigate to the Dashboard.
+                              Navigator.pushNamed(context, DashboardPage.navID);
+          
+                              setState(() {
+                                showLoadingSpinner = false;
+                              });
+          
+                            } catch (error) {
+                              // If an error occurs, display it in a SnackBar.
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Sign Up Failed: ${error.toString()}")),
+                              );
+          
+                              setState(() {
+                                showLoadingSpinner = false;
+                              });
+                            }
+                          },
+                          child: const Text(
+                            "Sign Up",
+                            style: kCredentialButtonText,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // "Already have an account? Log in"
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 1100),
+                    child: Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, LoginPage.navID);
                         },
-                        child: const Text(
-                          "Sign Up",
-                          style: kCredentialButtonText,
+                        child: Text.rich(
+                          TextSpan(
+                            text: "Already have an account? ",
+                            style: kCredentialCaptionText,
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: "Log in",
+                                style: kCredentialLinkText,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                // "Already have an account? Log in"
-                FadeInUp(
-                  duration: const Duration(milliseconds: 1100),
-                  child: Center(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, LoginPage.navID);
-                      },
-                      child: Text.rich(
-                        TextSpan(
-                          text: "Already have an account? ",
-                          style: kCredentialCaptionText,
-                          children: <InlineSpan>[
-                            TextSpan(
-                              text: "Log in",
-                              style: kCredentialLinkText,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

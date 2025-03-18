@@ -35,77 +35,79 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           icon: kGoBackIconStyle,
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Heading
-              FadeInUp(
-                duration: const Duration(milliseconds: 500),
-                child: Center(
-                  child: TypeSet(
-                    "We’ll send you \na link to #reset# \nyour password...",
-                    style: kCredentialScreenHeadingText,
-                    textAlign: TextAlign.center,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Heading
+                FadeInUp(
+                  duration: const Duration(milliseconds: 500),
+                  child: Center(
+                    child: TypeSet(
+                      "We’ll send you \na link to #reset# \nyour password...",
+                      style: kCredentialScreenHeadingText,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 40),
-
-              // Email Address
-              FadeInUp(
-                duration: const Duration(milliseconds: 600),
-                child: CredentialInputField(
-                  label: "Email Address",
-                  hintText: "name@email.com",
-                  prefixIcon: Iconsax.sms,
-                  keyboardType: TextInputType.emailAddress,
-                  controller: _emailController,
+        
+                const SizedBox(height: 40),
+        
+                // Email Address
+                FadeInUp(
+                  duration: const Duration(milliseconds: 600),
+                  child: CredentialInputField(
+                    label: "Email Address",
+                    hintText: "name@email.com",
+                    prefixIcon: Iconsax.sms,
+                    keyboardType: TextInputType.emailAddress,
+                    controller: _emailController,
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: 30),
-
-              // Send Link button
-              FadeInUp(
-                duration: const Duration(milliseconds: 700),
-                child: Center(
-                  child: SizedBox(
-                    width: kButtonWidth,
-                    height: kButtonHeight,
-                    child: ElevatedButton(
-                      style: kCredentialButtonStyle,
-                      onPressed: () async {
-                        final email = _emailController.text.trim();
-                        if(email.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Please enter your email.")),
-                          );
-                          return;
-                        }
-                        try {
-                          await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Reset link sent to $email")),
-                          );
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Failed: $e")),
-                          );
-                        }
-                      },
-                      child: Text(
-                        "Send Link",
-                        style: kCredentialButtonText,
+        
+                const SizedBox(height: 30),
+        
+                // Send Link button
+                FadeInUp(
+                  duration: const Duration(milliseconds: 700),
+                  child: Center(
+                    child: SizedBox(
+                      width: kButtonWidth,
+                      height: kButtonHeight,
+                      child: ElevatedButton(
+                        style: kCredentialButtonStyle,
+                        onPressed: () async {
+                          final email = _emailController.text.trim();
+                          if(email.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Please enter your email.")),
+                            );
+                            return;
+                          }
+                          try {
+                            await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Reset link sent to $email")),
+                            );
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Failed: $e")),
+                            );
+                          }
+                        },
+                        child: Text(
+                          "Send Link",
+                          style: kCredentialButtonText,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
