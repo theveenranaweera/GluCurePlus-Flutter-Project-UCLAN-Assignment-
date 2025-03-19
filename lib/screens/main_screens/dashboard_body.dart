@@ -5,7 +5,6 @@ import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/widgets/sugar_item_row_widget.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
 
-
 class DashboardBody extends StatefulWidget {
   const DashboardBody({super.key});
 
@@ -155,32 +154,26 @@ class _DashboardBodyState extends State<DashboardBody> {
                       SugarItemRow(
                         itemName: "KitKat Bar",
                         sugarGrams: 8,
-                        timeString: "09:41",
                       ),
                       SugarItemRow(
                         itemName: "Banana",
                         sugarGrams: 12,
-                        timeString: "11:33",
                       ),
                       SugarItemRow(
                         itemName: "Protein Bar",
                         sugarGrams: 7,
-                        timeString: "15:00",
                       ),
                       SugarItemRow(
                         itemName: "Protein Bar",
                         sugarGrams: 7,
-                        timeString: "15:00",
                       ),
                       SugarItemRow(
                         itemName: "Protein Bar",
                         sugarGrams: 7,
-                        timeString: "15:00",
                       ),
                       SugarItemRow(
                         itemName: "Protein Bar",
                         sugarGrams: 7,
-                        timeString: "15:00",
                       ),
                     ],
                   ),

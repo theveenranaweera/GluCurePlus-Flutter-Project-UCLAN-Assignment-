@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 class SugarItemRow extends StatelessWidget {
   final String itemName;
   final int sugarGrams;
-  final String timeString;
 
   const SugarItemRow({
     Key? key,
     required this.itemName,
     required this.sugarGrams,
-    required this.timeString,
   }) : super(key: key);
 
   @override
@@ -22,11 +20,12 @@ class SugarItemRow extends StatelessWidget {
         children: [
           Text(
             itemName,
-            style: const TextStyle(color: Colors.black, fontSize: 16),
+            style: const TextStyle(color: Colors.black, fontSize: 16, fontFamily: 'Sans'),
           ),
           Text(
-            "$sugarGrams g [$timeString]",
-            style: const TextStyle(color: Colors.black),
+            "$sugarGrams g",
+            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontFamily: 'Sans'),
+
           ),
         ],
       ),
