@@ -17,6 +17,8 @@ const kDarkPurpleBgColor = Color(0xFF694B5D);
 
 const kProgressBarCompleteColor = Color(0xFFCB9CA3);
 
+const kProgressBarExeedLimitColor = Color(0xFFDE5059);
+
 const kProgressBarIncompleteColor = Color(0xFF5B3E4F);
 
 const kLightPurpleBgColor = Color(0xFFBBB2CC);

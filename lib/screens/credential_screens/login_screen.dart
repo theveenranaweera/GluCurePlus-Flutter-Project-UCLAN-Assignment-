@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                             setState(() {
                               showLoadingSpinner = true;
                             });
-          
+
                             try {
                               // Sign in the user using Firebase Authentication.
                               final newUser = await FirebaseAuth.instance.signInWithEmailAndPassword(

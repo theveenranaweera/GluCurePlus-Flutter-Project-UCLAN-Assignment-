@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
+import 'package:glucure_plus/services/firestore_service.dart';
 
 class AddSugarScreen extends StatefulWidget {
   static const String navID = 'add_sugar_screen';
@@ -11,8 +12,6 @@ class AddSugarScreen extends StatefulWidget {
 }
 
 class _AddSugarScreenState extends State<AddSugarScreen> {
-  /// Track user inputs if you like (e.g., with Controllers).
-  /// For now, we just show placeholders:
   final TextEditingController _productNameController = TextEditingController();
   final TextEditingController _sugarAmountController = TextEditingController();
 
@@ -110,12 +109,49 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          onPressed: () {
-                            // Validate & Save your sugar data here.
-                            // For example:
-                            // final product = _productNameController.text;
-                            // final sugarVal = double.tryParse(_sugarAmountController.text) ?? 0;
-                            // if (sugarVal > 0) { ... } else { ... }
+                          onPressed: () async {
+                            // 1. Retrieve the text from the text fields.
+                            final productName = _productNameController.text.trim();
+                            final sugarText = _sugarAmountController.text.trim();
+
+                            // 2. Check if the product name is empty.
+                            if (productName.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Please enter a product name.")),
+                              );
+                              return; // Exit the function if no product name.
+                            }
+
+                            // 3. Try to convert the sugar amount text into a number.
+                            final sugarAmount = double.tryParse(sugarText);
+                            if (sugarAmount == null || sugarAmount <= 0) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Please enter a valid sugar amount.")),
+                              );
+                              return; // Exit the function if the sugar amount is invalid.
+                            }
+
+                            // 4. Save the sugar log data to Firestore.
+                            try {
+                              await FirestoreService().saveSugarLog(
+                                productName: productName,
+                                sugarAmount: sugarAmount,
+                              );
+
+                              // 5. Show a success message.
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Sugar log saved for $productName!")),
+                              );
+
+                              // 6. Clear the text fields.
+                              _productNameController.clear();
+                              _sugarAmountController.clear();
+                            } catch (e) {
+                              // 7. If there is an error, display it.
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Error saving sugar log: $e")),
+                              );
+                            }
                           },
                           child: const Text(
                             "ADD",

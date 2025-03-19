@@ -5,7 +5,6 @@ import 'package:glucure_plus/widgets/custom_notch_nav_bar_widget.dart';
 import 'package:glucure_plus/screens/main_screens/dashboard_body.dart';
 import 'package:glucure_plus/screens/main_screens/add_sugar/add_sugar_screen.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class DashboardPage extends StatefulWidget {
   static const String navID = 'dashboard_screen';
@@ -15,28 +14,11 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-
-  late User loggedInUser;
-
-  void getCurrentUser() async {
-    try {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-        print(loggedInUser.email);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  /// The controller for the NotchBottomBar
+  // Controllers for your notch bottom bar + page view
   final NotchBottomBarController _controller = NotchBottomBarController(index: 0);
-
-  /// The controller for the PageView
   final PageController _pageController = PageController(initialPage: 0);
 
-  /// The current index for the bottom bar (which page is selected)
+  // Track which tab is active
   int _currentIndex = 0;
 
   @override
@@ -45,15 +27,10 @@ class _DashboardPageState extends State<DashboardPage> {
     super.dispose();
   }
 
-  /// We store the screens for each tab in this list.
+  // Our three tab views: Dashboard, AddSugar, Settings
   late final List<Widget> _navPages = [
-    // -- Tab 0: The main Dashboard content
-    DashboardBody(),
-
-    // -- Tab 1: Add Sugar Page
-    AddSugarScreen(),
-
-    // -- Tab 2: Settings page
+    DashboardBody(), // The "Home" tab
+    AddSugarScreen(), // The "Add" tab
     const Center(
       child: Text(
         "Settings Page",
@@ -67,11 +44,10 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       backgroundColor: kOffWhiteBgColor,
 
-      /// Wrap multiple pages in a PageView to jump via the bottom bar
+      // A PageView for swiping or direct jumps via bottom nav
       body: PageView(
         controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        // so it only changes via the nav bar, not by swiping
+        physics: const NeverScrollableScrollPhysics(), // No swipe, only nav
         onPageChanged: (index) {
           setState(() {
             _currentIndex = index;
@@ -80,7 +56,7 @@ class _DashboardPageState extends State<DashboardPage> {
         children: _navPages,
       ),
 
-      /// Use your CustomNotchNavBar at the bottom
+      // A custom bottom nav bar using your existing AnimatedNotchBottomBar setup
       bottomNavigationBar: CustomNotchNavBar(
         controller: _controller,
         pageController: _pageController,
@@ -101,17 +77,6 @@ class _DashboardPageState extends State<DashboardPage> {
             itemLabel: 'Settings',
           ),
         ],
-
-        // Handle taps using animateToPage
-        // onTap: (index) {
-        //   _pageController.animateToPage(
-        //     index,
-        //     duration: const Duration(milliseconds: 300), // Smooth animation
-        //     curve: Curves.easeInOut, // Ease-in-out effect
-        //   );
-        // },
-
-        // Optional styling
         barColor: kNavBarBgColor,
         notchColor: kNavBarBgColor,
         showLabel: true,

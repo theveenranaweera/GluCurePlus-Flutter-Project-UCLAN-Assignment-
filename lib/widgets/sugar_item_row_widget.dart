@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SugarItemRow extends StatelessWidget {
   final String itemName;
-  final int sugarGrams;
+  final double sugarGrams;
 
   const SugarItemRow({
     Key? key,
