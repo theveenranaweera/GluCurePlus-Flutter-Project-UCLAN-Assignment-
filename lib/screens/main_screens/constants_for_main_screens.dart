@@ -7,7 +7,7 @@ const TextStyle kMainScreenHeadingText = TextStyle(
 );
 
 const TextStyle kMainScreenSubHeadingText = TextStyle(
-  fontSize: 16,
+  fontSize: 17,
   fontWeight: FontWeight.bold,
   color: Colors.black,
   fontFamily: 'Sans',

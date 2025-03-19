@@ -100,17 +100,50 @@ class _DashboardBodyState extends State<DashboardBody> {
                       circularStrokeCap: CircularStrokeCap.round,
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 20),
                   // Section header for Sugar Intake logs list
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("SUGAR INTAKE", style: kMainScreenSubHeadingText),
+                        const Text("SUGAR INTAKE", style: kMainScreenSubHeadingText),
                         IconButton(
                           onPressed: () {
-                            // Delete ALL logs at once
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const TypeSet("*Delete All* Logs"),
+                                  content: const Text("Are you sure you want to delete all sugar logs?"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("Cancel"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        try {
+                                          await FirestoreService().deleteAllLogs();
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(content: Text("All logs deleted.")),
+                                          );
+                                        } catch (e) {
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text("Error deleting logs: $e")),
+                                          );
+                                        }
+                                      },
+                                      child: const Text("Delete All", style: TextStyle(color: Colors.red)),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
                           icon: const Icon(Iconsax.more),
                           color: Colors.black,
@@ -136,9 +169,44 @@ class _DashboardBodyState extends State<DashboardBody> {
                         final log = logs[index];
                         final productName = log['productName'];
                         final sugarAmount = log['sugarAmount'];
+                        final docId = log['docId'];
                         return SugarItemRow(
+                          docId: docId,
                           itemName: productName,
                           sugarGrams: sugarAmount,
+                          onEdit: () {
+                            _showEditDialog(context, docId, productName, sugarAmount);
+                          },
+                          onDelete: () async {
+                            // Show confirmation dialog
+                            final bool? confirmed = await showDialog<bool>(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const TypeSet("*Confirm* Delete"),
+                                  content: const Text("Are you sure you want to delete this sugar log?"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, false),
+                                      child: const Text("Cancel"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, true),
+                                      child: const Text("Delete", style: TextStyle(color: Colors.red)),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+
+                            // If the user confirms, delete the log.
+                            if (confirmed == true) {
+                              await FirestoreService().deleteSugarLog(docId: docId);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Sugar log deleted.")),
+                              );
+                            }
+                          },
                         );
                       },
                     ),
@@ -151,4 +219,80 @@ class _DashboardBodyState extends State<DashboardBody> {
       ),
     );
   }
+}
+
+void _showEditDialog(BuildContext context, String docId, String currentName, double currentSugar) {
+  final TextEditingController nameController = TextEditingController(text: currentName);
+  final TextEditingController sugarController = TextEditingController(text: currentSugar.toString());
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const TypeSet("*Edit* Sugar Log"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: "Product Name"),
+            ),
+            TextField(
+              controller: sugarController,
+              decoration: const InputDecoration(labelText: "Sugar Amount (g)"),
+              keyboardType: TextInputType.number,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () async {
+              // Retrieve inputs
+              String updatedName = nameController.text.trim();
+              // If the name is cleared, use the currentName.
+              if (updatedName.isEmpty) {
+                updatedName = currentName;
+              }
+              final sugarText = sugarController.text.trim();
+              final newSugar = double.tryParse(sugarText) ?? currentSugar; /// do we need the tryParse here?
+
+              // Check if there are any changes at all.
+              if (updatedName == currentName && newSugar == currentSugar) {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("No changes made.")),
+                );
+                return;
+              }
+
+              // Attempt to update the sugar log in Firestore.
+              try {
+                await FirestoreService().editSugarLog(
+                  docId: docId,
+                  productName: updatedName,
+                  sugarAmount: newSugar,
+                );
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Sugar log updated for $updatedName!")),
+                );
+              } catch (e) {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Error updating sugar log: $e")),
+                );
+              }
+            },
+            child: const Text("Save"),
+          ),
+        ],
+      );
+    },
+  );
 }

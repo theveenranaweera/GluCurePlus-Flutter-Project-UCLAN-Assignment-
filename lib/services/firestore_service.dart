@@ -27,7 +27,59 @@ class FirestoreService {
     });
   }
 
-  // Stream all sugar logs for the current user.
+  // Edit an existing sugar log using its document ID.
+  Future<void> editSugarLog({
+    required String docId,
+    required String productName,
+    required double sugarAmount,
+  }) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception('User not logged in');
+    }
+
+    await _db
+        .collection('sugarLogs')
+        .doc(user.uid)
+        .collection('dailyLogs')
+        .doc(docId)
+        .update({
+      'productName': productName,
+      'sugarAmount': sugarAmount,
+    });
+  }
+
+  // Delete a sugar log using its document ID.
+  Future<void> deleteSugarLog({required String docId}) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception('User not logged in');
+    }
+
+    await _db
+        .collection('sugarLogs')
+        .doc(user.uid)
+        .collection('dailyLogs')
+        .doc(docId)
+        .delete();
+  }
+
+  Future<void> deleteAllLogs() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception("User not logged in");
+    }
+    // Reference to the dailyLogs subcollection
+    final logsCollection = _db.collection('sugarLogs').doc(user.uid).collection('dailyLogs');
+    final snapshot = await logsCollection.get();
+    final batch = _db.batch();
+    for (var doc in snapshot.docs) {
+      batch.delete(doc.reference);
+    }
+    await batch.commit();
+  }
+
+  // Stream all sugar logs for the current user (include docId).
   Stream<List<Map<String, dynamic>>> streamAllLogs() {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
@@ -40,6 +92,11 @@ class FirestoreService {
         .doc(user.uid)
         .collection('dailyLogs')
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+        .map((snapshot) => snapshot.docs.map((doc) {
+      final data = doc.data();
+      // Add document id to the map so we can reference it later.
+      data['docId'] = doc.id;
+      return data;
+    }).toList());
   }
 }
