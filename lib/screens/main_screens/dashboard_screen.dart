@@ -82,7 +82,7 @@ class _DashboardPageState extends State<DashboardPage> {
         showLabel: true,
         kBottomRadius: 28.0,
         kIconSize: 24.0,
-        bottomBarWidth: 500,
+        bottomBarWidth: MediaQuery.of(context).size.width,
       ),
     );
   }
