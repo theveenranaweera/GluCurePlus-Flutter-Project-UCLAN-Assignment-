@@ -5,6 +5,7 @@ import 'package:glucure_plus/widgets/custom_notch_nav_bar_widget.dart';
 import 'package:glucure_plus/screens/main_screens/dashboard_body.dart';
 import 'package:glucure_plus/screens/main_screens/add_sugar/add_sugar_screen.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
+import 'package:glucure_plus/screens/main_screens/profile_settings_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const String navID = 'dashboard_screen';
@@ -29,14 +30,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // Our three tab views: Dashboard, AddSugar, Settings
   late final List<Widget> _navPages = [
-    DashboardBody(), // The "Home" tab
-    AddSugarScreen(), // The "Add" tab
-    const Center(
-      child: Text(
-        "Settings Page",
-        style: TextStyle(fontSize: 24),
-      ),
-    ),
+    DashboardBody(),
+    AddSugarScreen(),
+    ProfileSettingsScreen()
   ];
 
   @override

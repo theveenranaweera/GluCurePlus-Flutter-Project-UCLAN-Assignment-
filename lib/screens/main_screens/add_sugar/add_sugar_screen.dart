@@ -61,7 +61,7 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: kLightPurpleBgColor,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(18),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -106,7 +106,7 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: kDarkPurpleBgColor,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
                           onPressed: () async {
