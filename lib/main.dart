@@ -37,7 +37,7 @@ class GluCurePlus extends StatelessWidget {
         LoginPage.navID: (context) => LoginPage(),
         ForgotPasswordPage.navID: (context) => ForgotPasswordPage(),
         SignUpPage.navID: (context) => SignUpPage(),
-        DashboardPage.navID: (context) => DashboardPage(),
+        DashboardScreen.navID: (context) => DashboardScreen(),
         AddSugarScreen.navID: (context) => AddSugarScreen(),
       },
     );

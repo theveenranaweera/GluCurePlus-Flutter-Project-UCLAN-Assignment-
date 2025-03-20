@@ -141,7 +141,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 password: _passwordController.text,
                               );
                               // If sign-up is successful, navigate to the Dashboard.
-                              Navigator.pushNamed(context, DashboardPage.navID);
+                              Navigator.pushNamed(context, DashboardScreen.navID);
           
                               setState(() {
                                 showLoadingSpinner = false;

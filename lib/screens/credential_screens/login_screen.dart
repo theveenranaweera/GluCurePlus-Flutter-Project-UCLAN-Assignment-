@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                                 password: _passwordController.text,
                               );
                               // If sign in is successful, navigate to the Dashboard.
-                              Navigator.pushNamed(context, DashboardPage.navID);
+                              Navigator.pushNamed(context, DashboardScreen.navID);
           
                               setState(() {
                                 showLoadingSpinner = false;

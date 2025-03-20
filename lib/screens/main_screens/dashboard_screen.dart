@@ -6,14 +6,14 @@ import 'package:glucure_plus/screens/main_screens/dashboard_body.dart';
 import 'package:glucure_plus/screens/main_screens/add_sugar/add_sugar_screen.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
 
-class DashboardPage extends StatefulWidget {
+class DashboardScreen extends StatefulWidget {
   static const String navID = 'dashboard_screen';
 
   @override
-  State<DashboardPage> createState() => _DashboardPageState();
+  State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
+class _DashboardScreenState extends State<DashboardScreen> {
   // Controllers for your notch bottom bar + page view
   final NotchBottomBarController _controller = NotchBottomBarController(index: 0);
   final PageController _pageController = PageController(initialPage: 0);
