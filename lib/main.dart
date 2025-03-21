@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:glucure_plus/screens/credential_screens/forgot_password_screen.dart';
-import 'screens/main_screens/add_sugar/add_sugar_screen.dart';
+import 'screens/main_screens/add_sugar_screen.dart';
 import 'screens/main_screens/dashboard_screen.dart';
 import 'screens/credential_screens/signup_screen.dart';
 import 'screens/credential_screens/login_screen.dart';
 import 'screens/credential_screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:glucure_plus/firebase_options.dart';
+import 'package:glucure_plus/screens/main_screens/profile_settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +40,7 @@ class GluCurePlus extends StatelessWidget {
         SignUpPage.navID: (context) => SignUpPage(),
         DashboardScreen.navID: (context) => DashboardScreen(),
         AddSugarScreen.navID: (context) => AddSugarScreen(),
+        ProfileSettingsScreen.navID: (context) => ProfileSettingsScreen(),
       },
     );
   }

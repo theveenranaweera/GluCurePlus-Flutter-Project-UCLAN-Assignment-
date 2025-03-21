@@ -3,7 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:glucure_plus/widgets/custom_notch_nav_bar_widget.dart';
 import 'package:glucure_plus/screens/main_screens/dashboard_body.dart';
-import 'package:glucure_plus/screens/main_screens/add_sugar/add_sugar_screen.dart';
+import 'package:glucure_plus/screens/main_screens/add_sugar_screen.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
 import 'package:glucure_plus/screens/main_screens/profile_settings_screen.dart';
 

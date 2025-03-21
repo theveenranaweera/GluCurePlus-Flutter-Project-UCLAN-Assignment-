@@ -79,6 +79,58 @@ class FirestoreService {
     await batch.commit();
   }
 
+  // Store or update the daily sugar goal for the current user.
+  Future<void> setDailySugarGoal(double goal) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception("No user is logged in.");
+    }
+
+    // We'll store user settings in a "users" collection
+    final docRef = _db.collection('users').doc(user.uid);
+
+    // Merge = true so we don't overwrite other fields if they exist
+    await docRef.set(
+      {'dailyTarget': goal},
+      SetOptions(merge: true),
+    );
+  }
+
+  // Retrieve the daily sugar goal. Return a default if none is found.
+  Future<double> getDailySugarGoal() async {
+    const double defaultDailyTarget = 30.0;
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception("No user is logged in.");
+    }
+
+    final docRef = _db.collection('users').doc(user.uid);
+    final snapshot = await docRef.get();
+    if (!snapshot.exists) {
+      return defaultDailyTarget; // default daily target if doc doesn't exist
+    }
+    final data = snapshot.data();
+    if (data == null) {
+      return defaultDailyTarget;
+    }
+
+    // Convert the dailyTarget field to double, or default to 30 if missing
+    return (data['dailyTarget'] as num?)?.toDouble() ?? defaultDailyTarget;
+  }
+
+  Stream<double> streamDailySugarGoal() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return const Stream.empty();
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .snapshots()
+        .map((snapshot) {
+      final data = snapshot.data() as Map<String, dynamic>?;
+      return (data?['dailyTarget'] as num?)?.toDouble() ?? 35.0;
+    });
+  }
+
   // Stream all sugar logs for the current user (include docId).
   Stream<List<Map<String, dynamic>>> streamAllLogs() {
     final user = FirebaseAuth.instance.currentUser;
