@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
 
+/// A reusable input field widget for credential screens.
+/// Displays a label, hint, optional prefix icon, and supports obscure text.
 class CredentialInputField extends StatelessWidget {
   final String label;
   final String hintText;
@@ -34,7 +36,6 @@ class CredentialInputField extends StatelessWidget {
             fontFamily: 'Sans',
           ),
         ),
-
         // TextField
         TextField(
           controller: controller,
@@ -58,7 +59,6 @@ class CredentialInputField extends StatelessWidget {
             ),
           ),
         ),
-
         const SizedBox(height: 25),
       ],
     );

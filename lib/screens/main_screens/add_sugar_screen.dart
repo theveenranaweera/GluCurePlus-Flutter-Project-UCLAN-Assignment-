@@ -4,8 +4,11 @@ import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
 import 'package:glucure_plus/services/firestore_service.dart';
 
+/// Screen for adding sugar data (product name & sugar amount) to Firestore.
 class AddSugarScreen extends StatefulWidget {
   static const String navID = 'add_sugar_screen';
+
+  const AddSugarScreen({Key? key}) : super(key: key);
 
   @override
   State<AddSugarScreen> createState() => _AddSugarScreenState();
@@ -20,6 +23,45 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
     _productNameController.dispose();
     _sugarAmountController.dispose();
     super.dispose();
+  }
+
+  /// Saves sugar data to Firestore with basic validations.
+  Future<void> _handleAddSugar() async {
+    final String productName = _productNameController.text.trim();
+    final String sugarText = _sugarAmountController.text.trim();
+
+    if (productName.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter a product name.")),
+      );
+      return;
+    }
+
+    final double? sugarAmount = double.tryParse(sugarText);
+    if (sugarAmount == null || sugarAmount <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter a valid sugar amount.")),
+      );
+      return;
+    }
+
+    try {
+      await FirestoreService().saveSugarLog(
+        productName: productName,
+        sugarAmount: sugarAmount,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Sugar log saved for $productName!")),
+      );
+
+      _productNameController.clear();
+      _sugarAmountController.clear();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error saving sugar log: $e")),
+      );
+    }
   }
 
   @override
@@ -42,12 +84,11 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                       "*Add* Sugar Data",
                       style: kMainScreenHeadingText,
                     ),
-                    // Barcode icon (placeholder for future scan screen)
                     IconButton(
                       onPressed: () {
-                        // Navigate to your barcode scanner screen
+                        // Future Barcode scanner logic placeholder
                       },
-                      icon: Icon(Iconsax.scan),
+                      icon: const Icon(Iconsax.scan),
                       color: Colors.black,
                       iconSize: 28,
                       tooltip: "Scan Barcode",
@@ -55,7 +96,8 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                // Container for input fields and ADD button
+
+                // Container for input fields + "ADD" button
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
@@ -66,7 +108,6 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Product Name field
                       TextField(
                         style: const TextStyle(
                           color: Colors.black,
@@ -82,7 +123,6 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      // Sugar Amount field
                       TextField(
                         style: const TextStyle(
                           color: Colors.black,
@@ -99,7 +139,6 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                         keyboardType: TextInputType.number,
                       ),
                       const SizedBox(height: 16),
-                      // ADD button
                       SizedBox(
                         height: 50,
                         child: ElevatedButton(
@@ -109,50 +148,7 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                               borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                          onPressed: () async {
-                            // 1. Retrieve the text from the text fields.
-                            final productName = _productNameController.text.trim();
-                            final sugarText = _sugarAmountController.text.trim();
-
-                            // 2. Check if the product name is empty.
-                            if (productName.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Please enter a product name.")),
-                              );
-                              return; // Exit the function if no product name.
-                            }
-
-                            // 3. Try to convert the sugar amount text into a number.
-                            final sugarAmount = double.tryParse(sugarText);
-                            if (sugarAmount == null || sugarAmount <= 0) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Please enter a valid sugar amount.")),
-                              );
-                              return; // Exit the function if the sugar amount is invalid.
-                            }
-
-                            // 4. Save the sugar log data to Firestore.
-                            try {
-                              await FirestoreService().saveSugarLog(
-                                productName: productName,
-                                sugarAmount: sugarAmount,
-                              );
-
-                              // 5. Show a success message.
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Sugar log saved for $productName!")),
-                              );
-
-                              // 6. Clear the text fields.
-                              _productNameController.clear();
-                              _sugarAmountController.clear();
-                            } catch (e) {
-                              // 7. If there is an error, display it.
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Error saving sugar log: $e")),
-                              );
-                            }
-                          },
+                          onPressed: _handleAddSugar,
                           child: const Text(
                             "ADD",
                             style: TextStyle(
@@ -168,10 +164,11 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
+
                 // Search Food Database button
                 GestureDetector(
                   onTap: () {
-                    // Navigate to your food database search screen.
+                    // Future: Navigate to a food database search screen
                   },
                   child: Container(
                     padding: const EdgeInsets.all(16),

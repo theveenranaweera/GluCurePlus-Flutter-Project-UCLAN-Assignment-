@@ -7,20 +7,31 @@ import 'package:glucure_plus/screens/main_screens/add_sugar_screen.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
 import 'package:glucure_plus/screens/main_screens/profile_settings_screen.dart';
 
+/// The main dashboard screen containing a bottom nav bar and PageView for:
+/// - DashboardBody
+/// - AddSugarScreen
+/// - ProfileSettingsScreen
 class DashboardScreen extends StatefulWidget {
   static const String navID = 'dashboard_screen';
+
+  const DashboardScreen({Key? key}) : super(key: key);
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  // Controllers for your notch bottom bar + page view
-  final NotchBottomBarController _controller = NotchBottomBarController(index: 0);
+  final NotchBottomBarController _controller =
+  NotchBottomBarController(index: 0);
   final PageController _pageController = PageController(initialPage: 0);
 
-  // Track which tab is active
   int _currentIndex = 0;
+
+  late final List<Widget> _navPages = [
+    DashboardBody(),
+    AddSugarScreen(),
+    ProfileSettingsScreen(),
+  ];
 
   @override
   void dispose() {
@@ -28,31 +39,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.dispose();
   }
 
-  // Our three tab views: Dashboard, AddSugar, Settings
-  late final List<Widget> _navPages = [
-    DashboardBody(),
-    AddSugarScreen(),
-    ProfileSettingsScreen()
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kOffWhiteBgColor,
 
-      // A PageView for swiping or direct jumps via bottom nav
+      // PageView for swiping or direct jumps via bottom nav
       body: PageView(
         controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(), // No swipe, only nav
-        onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        physics: const NeverScrollableScrollPhysics(),
+        onPageChanged: (index) => setState(() => _currentIndex = index),
         children: _navPages,
       ),
 
-      // A custom bottom nav bar using your existing AnimatedNotchBottomBar setup
+      // Custom bottom nav bar
       bottomNavigationBar: CustomNotchNavBar(
         controller: _controller,
         pageController: _pageController,
