@@ -4,7 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
 import 'package:glucure_plus/widgets/credential_input_field_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:glucure_plus/services/user_auth_service.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   static const String navID = 'forgot_password_screen';
@@ -83,18 +83,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           final email = _emailController.text.trim();
                           if(email.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Please enter your email.")),
+                              const SnackBar(content: Text("Please enter your email.")),
                             );
                             return;
                           }
+                          final authService = AuthService();
                           try {
-                            await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+                            await authService.sendPasswordResetEmail(email: email);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text("Reset link sent to $email")),
                             );
-                          } catch (e) {
+                          } catch (error) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Failed: $e")),
+                              SnackBar(content: Text("Failed: $error")),
                             );
                           }
                         },

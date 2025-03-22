@@ -6,7 +6,6 @@ import 'package:glucure_plus/screens/credential_screens/constants_for_credential
 import 'package:glucure_plus/screens/credential_screens/login_screen.dart';
 import 'package:glucure_plus/screens/main_screens/dashboard_screen.dart';
 import 'package:glucure_plus/widgets/credential_input_field_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:glucure_plus/services/user_auth_service.dart';
 
@@ -116,41 +115,35 @@ class _SignUpPageState extends State<SignUpPage> {
                             setState(() {
                               showLoadingSpinner = true;
                             });
-          
-                            // Check if the password and confirm password fields match.
+
+                            // Ensure the password fields match before proceeding.
                             if (_passwordController.text != _confirmPasswordController.text) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text("Passwords do not match")),
                               );
-          
                               setState(() {
                                 showLoadingSpinner = false;
                               });
                               return;
                             }
+
+                            final authService = AuthService();
                             try {
-                              // Create a new user using Firebase Authentication.
-                              final newUser = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                              final newUser = await authService.signUpWithEmail(
                                 email: _emailController.text.trim(),
                                 password: _passwordController.text,
                               );
-                              // If sign-up is successful, navigate to the Dashboard.
-                              Navigator.pushNamed(context, DashboardScreen.navID);
-          
-                              setState(() {
-                                showLoadingSpinner = false;
-                              });
-          
+                              if (newUser != null) {
+                                Navigator.pushNamed(context, DashboardScreen.navID);
+                              }
                             } catch (error) {
-                              // If an error occurs, display it in a SnackBar.
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("Sign Up Failed: ${error.toString()}")),
                               );
-          
-                              setState(() {
-                                showLoadingSpinner = false;
-                              });
                             }
+                            setState(() {
+                              showLoadingSpinner = false;
+                            });
                           },
                           child: const Text(
                             "Sign Up",
@@ -202,7 +195,18 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                   ),
-                  //const SizedBox(height: 20),
+                  const SizedBox(height: 20),
+
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 1090),
+                    child: Center(
+                      child: Container(
+                        width: 290,
+                        height: 1.5,
+                        color: Colors.grey.shade700,
+                      ),
+                    ),
+                  ),
 
                   // "Already have an account? Log in"
                   FadeInUp(

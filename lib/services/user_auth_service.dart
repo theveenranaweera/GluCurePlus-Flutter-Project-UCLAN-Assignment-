@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-  /// Initiates the Google sign-in flow and returns a [UserCredential].
+  /// Sign in and sign up using google authentication.
   Future<UserCredential?> signInWithGoogle() async {
     try {
       // Trigger the Google authentication flow.
@@ -27,6 +27,48 @@ class AuthService {
     } catch (e) {
       print("Error in Google Sign-In: $e");
       return null;
+    }
+  }
+
+  /// Sign in using Firebase Authentication.
+  Future<UserCredential?> signInWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      return await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      print("Error in Email Sign-In: $e");
+      rethrow;
+    }
+  }
+
+  /// Sign up using Firebase Authentication.
+  Future<UserCredential?> signUpWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      return await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      print("Error in Email Sign-Up: $e");
+      rethrow;
+    }
+  }
+
+  /// Send a password reset email.
+  Future<void> sendPasswordResetEmail({required String email}) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      print("Error sending password reset email: $e");
+      rethrow;
     }
   }
 }

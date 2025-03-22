@@ -19,7 +19,7 @@ const TextStyle kCredentialScreenHeadingText = TextStyle(
 );
 
 const TextStyle kCredentialButtonText = TextStyle(
-    fontSize: 22,
+    fontSize: 21,
     fontWeight: FontWeight.bold,
     fontFamily: 'Sans',
     color: kDarkBgColor,
@@ -39,8 +39,8 @@ const TextStyle kCredentialLinkText = TextStyle(
 );
 
 // Credential Button Dimensions
-const double kButtonWidth = 290.0;
-const double kButtonHeight = 69.0;
+const double kButtonWidth = 280.0;
+const double kButtonHeight = 65.0;
 
 final ButtonStyle kCredentialButtonStyle = ElevatedButton.styleFrom(
     backgroundColor: kButtonFillColor,

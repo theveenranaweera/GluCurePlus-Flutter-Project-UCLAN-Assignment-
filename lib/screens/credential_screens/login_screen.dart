@@ -8,7 +8,6 @@ import 'package:glucure_plus/screens/credential_screens/signup_screen.dart';
 import 'package:glucure_plus/screens/credential_screens/forgot_password_screen.dart';
 import 'package:glucure_plus/screens/main_screens/dashboard_screen.dart';
 import 'package:glucure_plus/widgets/credential_input_field_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:glucure_plus/services/user_auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -104,29 +103,24 @@ class _LoginPageState extends State<LoginPage> {
                               showLoadingSpinner = true;
                             });
 
+                            // Create an instance of AuthService.
+                            final authService = AuthService();
                             try {
-                              // Sign in the user using Firebase Authentication.
-                              final newUser = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                              final userCredential = await authService.signInWithEmail(
                                 email: _emailController.text.trim(),
                                 password: _passwordController.text,
                               );
-                              // If sign in is successful, navigate to the Dashboard.
-                              Navigator.pushNamed(context, DashboardScreen.navID);
-          
-                              setState(() {
-                                showLoadingSpinner = false;
-                              });
-          
+                              if (userCredential != null) {
+                                Navigator.pushNamed(context, DashboardScreen.navID);
+                              }
                             } catch (error) {
-                              // Show an error message if sign in fails.
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("Sign In Failed: ${error.toString()}")),
                               );
-          
-                              setState(() {
-                                showLoadingSpinner = false;
-                              });
                             }
+                            setState(() {
+                              showLoadingSpinner = false;
+                            });
                           },
                           child: Text(
                             "Sign In",
