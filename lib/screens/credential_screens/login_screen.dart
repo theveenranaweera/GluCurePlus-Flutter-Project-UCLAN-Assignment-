@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: <Widget>[
                   // Heading
                   FadeInUp(
-                    duration: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 300),
                     child: Center(
                       child: TypeSet(
                         "Let’s #Continue# \nto track your \nSugar Intake!",
@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 30),
                   // Email
                   FadeInUp(
-                    duration: const Duration(milliseconds: 600),
+                    duration: const Duration(milliseconds: 500),
                     child: CredentialInputField(
                       label: "Email Address",
                       hintText: "name@email.com",
@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   // Password
                   FadeInUp(
-                    duration: const Duration(milliseconds: 700),
+                    duration: const Duration(milliseconds: 600),
                     child: CredentialInputField(
                       label: "Password",
                       obscureText: true,
@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 30),
                   // Sign In button with Firebase integration
                   FadeInUp(
-                    duration: const Duration(milliseconds: 800),
+                    duration: const Duration(milliseconds: 700),
                     child: Center(
                       child: SizedBox(
                         width: kButtonWidth,
@@ -156,15 +156,21 @@ class _LoginPageState extends State<LoginPage> {
 
                             // Create an instance of AuthService
                             final authService = AuthService();
-                            final userCredential = await authService.signInWithGoogle();
-
-                            if (userCredential != null) {
-                              Navigator.pushNamed(context, DashboardScreen.navID);
-                            } else {
+                            try {
+                              final userCredential = await authService.signInWithEmail(
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text,
+                              );
+                              if (userCredential != null) {
+                                Navigator.pushNamed(context, DashboardScreen.navID);
+                              }
+                            } catch (error) {
+                              // Show an error message instructing the user to verify their email.
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Google Sign In Failed")),
+                                SnackBar(content: Text(error.toString())),
                               );
                             }
+
                             setState(() {
                               showLoadingSpinner = false;
                             });

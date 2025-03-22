@@ -36,10 +36,21 @@ class AuthService {
     required String password,
   }) async {
     try {
-      return await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      // Reload user to fetch the latest data (including emailVerified status)
+      await userCredential.user?.reload();
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user != null && !user.emailVerified) {
+        // If not verified, sign out and throw an error
+        await FirebaseAuth.instance.signOut();
+        throw Exception("Email not verified. Please verify your email before logging in.");
+      }
+      return userCredential;
     } catch (e) {
       print("Error in Email Sign-In: $e");
       rethrow;
@@ -52,10 +63,13 @@ class AuthService {
     required String password,
   }) async {
     try {
-      return await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      // Send verification email.
+      await userCredential.user?.sendEmailVerification();
+      return userCredential;
     } catch (e) {
       print("Error in Email Sign-Up: $e");
       rethrow;

@@ -23,7 +23,7 @@ class WelcomePage extends StatelessWidget {
                 const SizedBox(height: 60),
                 // Text
                 FadeInUp(
-                  duration: const Duration(milliseconds: 1000),
+                  duration: const Duration(milliseconds: 300),
                   child: Center(
                     child: AnimatedTextKit(
                       animatedTexts: [
@@ -42,7 +42,7 @@ class WelcomePage extends StatelessWidget {
 
                 // GIF
                 FadeInUp(
-                  duration: const Duration(milliseconds: 1200),
+                  duration: const Duration(milliseconds: 500),
                   child: SizedBox(
                     height: 290,
                     child: Image.asset(
@@ -57,7 +57,7 @@ class WelcomePage extends StatelessWidget {
 
                 // Get Started Button
                 FadeInUp(
-                  duration: const Duration(milliseconds: 1400),
+                  duration: const Duration(milliseconds: 600),
                   child: SizedBox(
                     width: kButtonWidth,
                     height: kButtonHeight,
@@ -78,7 +78,7 @@ class WelcomePage extends StatelessWidget {
 
                 // Sign In Button
                 FadeInUp(
-                  duration: const Duration(milliseconds: 1600),
+                  duration: const Duration(milliseconds: 700),
                   child: SizedBox(
                     width: kButtonWidth,
                     height: kButtonHeight,

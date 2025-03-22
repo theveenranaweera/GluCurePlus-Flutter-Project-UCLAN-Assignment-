@@ -44,7 +44,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               children: [
                 // Heading
                 FadeInUp(
-                  duration: const Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 300),
                   child: Center(
                     child: TypeSet(
                       "We’ll send you \na link to #reset# \nyour password...",
@@ -58,7 +58,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         
                 // Email Address
                 FadeInUp(
-                  duration: const Duration(milliseconds: 600),
+                  duration: const Duration(milliseconds: 500),
                   child: CredentialInputField(
                     label: "Email Address",
                     hintText: "name@email.com",
@@ -72,7 +72,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         
                 // Send Link button
                 FadeInUp(
-                  duration: const Duration(milliseconds: 700),
+                  duration: const Duration(milliseconds: 600),
                   child: Center(
                     child: SizedBox(
                       width: kButtonWidth,

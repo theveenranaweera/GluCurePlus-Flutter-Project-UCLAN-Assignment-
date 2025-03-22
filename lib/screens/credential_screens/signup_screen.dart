@@ -55,7 +55,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: <Widget>[
                   // Heading
                   FadeInUp(
-                    duration: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 300),
                     child: Center(
                       child: TypeSet(
                         "#Join# the World \nof GluCure+",
@@ -68,7 +68,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   // Email
                   FadeInUp(
-                    duration: const Duration(milliseconds: 700),
+                    duration: const Duration(milliseconds: 500),
                     child: CredentialInputField(
                       label: "Email Address",
                       hintText: "name@email.com",
@@ -80,7 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   // Password
                   FadeInUp(
-                    duration: const Duration(milliseconds: 800),
+                    duration: const Duration(milliseconds: 600),
                     child: CredentialInputField(
                       label: "Password",
                       obscureText: true,
@@ -91,7 +91,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   // Confirm Password
                   FadeInUp(
-                    duration: const Duration(milliseconds: 900),
+                    duration: const Duration(milliseconds: 700),
                     child: CredentialInputField(
                       label: "Confirm Password",
                       obscureText: true,
@@ -104,7 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   // Sign Up button with Firebase integration
                   FadeInUp(
-                    duration: const Duration(milliseconds: 1000),
+                    duration: const Duration(milliseconds: 800),
                     child: Center(
                       child: SizedBox(
                         width: kButtonWidth,
@@ -134,7 +134,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                 password: _passwordController.text,
                               );
                               if (newUser != null) {
-                                Navigator.pushNamed(context, DashboardScreen.navID);
+                                // Inform the user to verify their email before accessing the app.
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text("Verification email sent. Please check your inbox.")),
+                                );
+                                Navigator.pushNamed(context, LoginPage.navID);
                               }
                             } catch (error) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -158,7 +162,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   // Google Sign Up button
                   FadeInUp(
-                    duration: const Duration(milliseconds: 1050),
+                    duration: const Duration(milliseconds: 900),
                     child: Center(
                       child: SizedBox(
                         width: kButtonWidth,
@@ -198,7 +202,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(height: 20),
 
                   FadeInUp(
-                    duration: const Duration(milliseconds: 1090),
+                    duration: const Duration(milliseconds: 1000),
                     child: Center(
                       child: Container(
                         width: 290,
