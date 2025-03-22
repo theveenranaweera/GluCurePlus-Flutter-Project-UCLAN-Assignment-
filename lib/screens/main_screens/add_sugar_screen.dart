@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glucure_plus/screens/main_screens/food_search_screen.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
@@ -84,18 +85,9 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                       "*Add* Sugar Data",
                       style: kMainScreenHeadingText,
                     ),
-                    IconButton(
-                      onPressed: () {
-                        // Future Barcode scanner logic placeholder
-                      },
-                      icon: const Icon(Iconsax.scan),
-                      color: Colors.black,
-                      iconSize: 28,
-                      tooltip: "Scan Barcode",
-                    ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 15),
 
                 // Container for input fields + "ADD" button
                 Container(
@@ -163,12 +155,12 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 25),
 
                 // Search Food Database button
                 GestureDetector(
                   onTap: () {
-                    // Future: Navigate to a food database search screen
+                    Navigator.pushNamed(context, FoodSearchScreen.navID);
                   },
                   child: Container(
                     padding: const EdgeInsets.all(16),

@@ -65,15 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  // Full Name (commented out)
-                  // FadeInUp(
-                  //   duration: const Duration(milliseconds: 600),
-                  //   child: CredentialInputField(
-                  //     label: "Name",
-                  //     hintText: "Enter Full Name",
-                  //     prefixIcon: Iconsax.user,
-                  //   ),
-                  // ),
+
                   // Email
                   FadeInUp(
                     duration: const Duration(milliseconds: 700),

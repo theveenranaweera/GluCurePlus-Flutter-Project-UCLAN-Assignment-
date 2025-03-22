@@ -10,6 +10,7 @@ import 'package:glucure_plus/screens/credential_screens/welcome_screen.dart';
 import 'package:glucure_plus/screens/main_screens/add_sugar_screen.dart';
 import 'package:glucure_plus/screens/main_screens/dashboard_screen.dart';
 import 'package:glucure_plus/screens/main_screens/profile_settings_screen.dart';
+import 'package:glucure_plus/screens/main_screens/food_search_screen.dart';
 
 /// The entry point of the GluCure Plus application.
 void main() async {
@@ -43,6 +44,7 @@ class GluCurePlus extends StatelessWidget {
         DashboardScreen.navID: (context) => DashboardScreen(),
         AddSugarScreen.navID: (context) => AddSugarScreen(),
         ProfileSettingsScreen.navID: (context) => ProfileSettingsScreen(),
+        FoodSearchScreen.navID: (context) => FoodSearchScreen(),
       },
     );
   }
