@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glucure_plus/services/off_api_service.dart';
 
 class FoodSearchScreen extends StatefulWidget {
-  static const String navID = 'foodSearch_screen';
+  static const String navID = 'food_search_screen';
 
   @override
   State<FoodSearchScreen> createState() => _FoodSearchScreenState();

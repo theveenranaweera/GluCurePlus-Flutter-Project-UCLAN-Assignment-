@@ -9,6 +9,7 @@ import 'package:glucure_plus/screens/credential_screens/forgot_password_screen.d
 import 'package:glucure_plus/screens/main_screens/dashboard_screen.dart';
 import 'package:glucure_plus/widgets/credential_input_field_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:glucure_plus/services/user_auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   static const String navID = 'login_screen';
@@ -135,6 +136,52 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 20),
+
+                  // Google Sign In
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 800),
+                    child: Center(
+                      child: SizedBox(
+                        width: kButtonWidth,
+                        height: kButtonHeight,
+                        child: OutlinedButton.icon(
+                          style: kCredentialOutlinedButtonStyle,
+                          icon: const Icon(Iconsax.login, color: kButtonFillColor),
+                          label: Text(
+                            "Sign in with Google",
+                            style: kCredentialButtonText.copyWith(
+                              color: kButtonFillColor, // dark text on gold
+                            ),
+                          ),
+                          onPressed: () async {
+                            setState(() {
+                              showLoadingSpinner = true;
+                            });
+
+                            // Create an instance of AuthService
+                            final authService = AuthService();
+                            final userCredential = await authService.signInWithGoogle();
+
+                            if (userCredential != null) {
+                              Navigator.pushNamed(context, DashboardScreen.navID);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Google Sign In Failed")),
+                              );
+                            }
+                            setState(() {
+                              showLoadingSpinner = false;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
                   // Forgot Password?
                   FadeInUp(
                     duration: const Duration(milliseconds: 900),

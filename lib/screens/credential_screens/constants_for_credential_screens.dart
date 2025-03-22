@@ -39,7 +39,7 @@ const TextStyle kCredentialLinkText = TextStyle(
 );
 
 // Credential Button Dimensions
-const double kButtonWidth = 277.0;
+const double kButtonWidth = 290.0;
 const double kButtonHeight = 69.0;
 
 final ButtonStyle kCredentialButtonStyle = ElevatedButton.styleFrom(

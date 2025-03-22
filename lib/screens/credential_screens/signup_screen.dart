@@ -8,6 +8,7 @@ import 'package:glucure_plus/screens/main_screens/dashboard_screen.dart';
 import 'package:glucure_plus/widgets/credential_input_field_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:glucure_plus/services/user_auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
   static const String navID = 'signup_screen';
@@ -101,6 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   const SizedBox(height: 30),
+
                   // Sign Up button with Firebase integration
                   FadeInUp(
                     duration: const Duration(milliseconds: 1000),
@@ -158,6 +160,50 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 20),
+
+                  // Google Sign Up button
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 1050),
+                    child: Center(
+                      child: SizedBox(
+                        width: kButtonWidth,
+                        height: kButtonHeight,
+                        child: OutlinedButton.icon(
+                          style: kCredentialOutlinedButtonStyle,
+                          icon: const Icon(Icons.login, color: kButtonFillColor),
+                          label: Text(
+                            "Sign up with Google",
+                            style: kCredentialButtonText.copyWith(
+                              color: kButtonFillColor, // dark text on gold
+                            ),
+                          ),
+                          onPressed: () async {
+                            setState(() {
+                              showLoadingSpinner = true;
+                            });
+
+                            // Create an instance of AuthService.
+                            final AuthService _authService = AuthService();
+                            final userCredential = await _authService.signInWithGoogle();
+                            if (userCredential != null) {
+                              Navigator.pushNamed(context, DashboardScreen.navID);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Google Sign In Failed")),
+                              );
+                            }
+                            setState(() {
+                              showLoadingSpinner = false;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  //const SizedBox(height: 20),
+
                   // "Already have an account? Log in"
                   FadeInUp(
                     duration: const Duration(milliseconds: 1100),

@@ -68,7 +68,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                 ),
         
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
         
                 // Send Link button
                 FadeInUp(

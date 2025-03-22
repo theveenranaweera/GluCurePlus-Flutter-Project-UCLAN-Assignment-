@@ -62,7 +62,7 @@ class WelcomePage extends StatelessWidget {
                     width: kButtonWidth,
                     height: kButtonHeight,
                     child: ElevatedButton(
-                      style: kCredentialButtonStyle, // Use the constant style
+                      style: kCredentialButtonStyle,
                       onPressed: () {
                         Navigator.pushNamed(context, SignUpPage.navID);
                       },
