@@ -4,6 +4,7 @@ import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dar
 import 'package:glucure_plus/screens/credential_screens/welcome_screen.dart';
 import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/services/firestore_service.dart';
+import 'package:glucure_plus/services/user_auth_service.dart';
 
 /// Screen allowing the user to set a daily sugar goal and sign out.
 class ProfileSettingsScreen extends StatefulWidget {
@@ -72,10 +73,17 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     }
   }
 
-  /// Sign-out function.
+  /// Sign-out function using AuthService
   Future<void> _signOut() async {
-    await _auth.signOut();
-    Navigator.pushReplacementNamed(context, WelcomePage.navID);
+    try {
+      final AuthService _authService = AuthService();
+      await _authService.signOut();
+      Navigator.pushReplacementNamed(context, WelcomePage.navID);
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Sign out failed: $error")),
+      );
+    }
   }
 
   @override
