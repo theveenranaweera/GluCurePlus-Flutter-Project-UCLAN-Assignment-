@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:glucure_plus/firebase_options.dart';
+import 'package:glucure_plus/auth_wrapper.dart';
 
-// Screens
 import 'package:glucure_plus/screens/credential_screens/forgot_password_screen.dart';
 import 'package:glucure_plus/screens/credential_screens/login_screen.dart';
 import 'package:glucure_plus/screens/credential_screens/signup_screen.dart';
@@ -35,7 +35,7 @@ class GluCurePlus extends StatelessWidget {
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
-      initialRoute: WelcomePage.navID,
+      home: const AuthWrapper(),
       routes: {
         WelcomePage.navID: (context) => WelcomePage(),
         LoginPage.navID: (context) => LoginPage(),
