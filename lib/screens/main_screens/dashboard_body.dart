@@ -262,6 +262,16 @@ class _DashboardBodyState extends State<DashboardBody> {
                 }
                 final sugarText = sugarController.text.trim();
                 final newSugar = double.tryParse(sugarText) ?? currentSugar;
+
+                if (sugarText.contains('.')) {
+                  final parts = sugarText.split('.');
+                  if (parts.length > 1 && parts[1].length > 2) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Please enter a sugar value with at most 2 decimal places.")),
+                    );
+                    return;
+                  }
+                }
                 if (updatedName == currentName && newSugar == currentSugar) {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(

@@ -31,6 +31,16 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
     final String productName = _productNameController.text.trim();
     final String sugarText = _sugarAmountController.text.trim();
 
+    if (sugarText.contains('.')) {
+      final parts = sugarText.split('.');
+      if (parts.length > 1 && parts[1].length > 2) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please enter a sugar value with at most 2 decimal places.")),
+        );
+        return;
+      }
+    }
+
     if (productName.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please enter a product name.")),
