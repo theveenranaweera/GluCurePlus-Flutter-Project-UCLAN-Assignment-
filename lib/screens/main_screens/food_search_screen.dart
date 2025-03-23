@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:glucure_plus/services/off_api_service.dart';
+import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
+import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
+import 'package:typeset/typeset.dart';
+import 'package:glucure_plus/screens/main_screens/add_sugar_screen.dart';
 
 class FoodSearchScreen extends StatefulWidget {
   static const String navID = 'food_search_screen';
+
+  const FoodSearchScreen({Key? key}) : super(key: key);
 
   @override
   State<FoodSearchScreen> createState() => _FoodSearchScreenState();
@@ -21,6 +27,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
   // For barcode result
   Map<String, dynamic>? _barcodeResult;
 
+  /// Handles the actual search logic: either by name or by barcode.
   Future<void> _handleSearch() async {
     final query = _searchController.text.trim();
     if (query.isEmpty) {
@@ -63,52 +70,117 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // 1) Match the off-white background
+      backgroundColor: kOffWhiteBgColor,
       appBar: AppBar(
-        title: const Text("Search Database"),
+        backgroundColor: kOffWhiteBgColor,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: getGoBackIcon(color: Colors.black),
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Input Field
-            TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: "Enter Item Name or Barcode Value",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 2) Heading with TypeSet, matching style from ProfileSettingsScreen
+              TypeSet(
+                "*Search* Database",
+                style: kMainScreenHeadingText,
+              ),
+              const SizedBox(height: 15),
+
+              // 3) Container for the search field, styled similarly to the text fields
+              Container(
+                decoration: BoxDecoration(
+                  color: kLightGreyButtonBgColor,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: TextField(
+                  controller: _searchController,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Sans',
+                  ),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Enter Item Name or Barcode Value",
+                    hintStyle: TextStyle(
+                      color: Colors.black54,
+                      fontFamily: 'Sans',
+                    ),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 12),
+              const SizedBox(height: 16),
 
-            // Search Button
-            ElevatedButton(
-              onPressed: _handleSearch,
-              child: const Text("SEARCH"),
-            ),
-            const SizedBox(height: 12),
-
-            // Loading indicator
-            if (_isLoading) const CircularProgressIndicator(),
-
-            // Error message (if any)
-            if (_errorMessage.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  _errorMessage,
-                  style: const TextStyle(color: Colors.red),
+              // 4) "Search" Button, styled like the "SAVE" button in ProfileSettingsScreen
+              Center(
+                child: SizedBox(
+                  width: 120,
+                  height: 48,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kDarkPurpleBgColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    onPressed: _handleSearch,
+                    child: const Text(
+                      "SEARCH",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontFamily: 'Sans',
+                      ),
+                    ),
+                  ),
                 ),
               ),
+              const SizedBox(height: 20),
 
-            // Expanded area to show results
-            Expanded(
-              child: _barcodeResult != null
-                  ? _buildBarcodeResult(_barcodeResult!)
-                  : _buildNameSearchResults(),
-            ),
-          ],
+              // 5) Loading indicator or error message
+              if (_isLoading)
+                const Center(child: CircularProgressIndicator()),
+              if (_errorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    _errorMessage,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+
+              // 6) Results
+              // Wrap results in a container with a subtle background, like kLightPurpleBgColor
+              if (_barcodeResult != null)
+                Container(
+                  decoration: BoxDecoration(
+                    color: kLightPurpleBgColor,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  padding: const EdgeInsets.all(13),
+                  child: _buildBarcodeResult(_barcodeResult!),
+                )
+              else if (_searchResults.isNotEmpty)
+                Container(
+                  decoration: BoxDecoration(
+                    color: kLightPurpleBgColor,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  padding: const EdgeInsets.all(13),
+                  child: _buildNameSearchResults(),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -117,22 +189,21 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
   Widget _buildBarcodeResult(Map<String, dynamic> product) {
     final productName = product["product_name"] ?? "Unknown Product";
     final nutriments = product["nutriments"] ?? {};
-    final sugar100g = nutriments["sugars_100g"]?.toString() ?? "N/A";
+    final sugars = nutriments["sugars_100g"]?.toString() ?? "N/A";
 
     return Card(
+      color: kLightPurpleBgColor,
       child: ListTile(
         title: Text(productName),
-        subtitle: Text("Sugar Level: $sugar100g"),
+        subtitle: Text("Sugar Level: $sugars g"),
       ),
     );
   }
 
   Widget _buildNameSearchResults() {
-    if (_searchResults.isEmpty) {
-      return const SizedBox(); // or a placeholder widget
-    }
-
     return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: _searchResults.length,
       itemBuilder: (context, index) {
         final product = _searchResults[index];
@@ -141,11 +212,19 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
         final sugars = nutriments["sugars"]?.toString() ?? "N/A";
 
         return Card(
+          color: const Color(0xFF9E91AA),
           child: ListTile(
-            title: Text(productName),
-            subtitle: Text("Sugar Level: $sugars"),
+            title: Text(
+              productName,
+              style: const TextStyle(color: Color(0xFF272033)),
+            ),
+            subtitle: Text(
+              "Sugar Level: $sugars g",
+              style: const TextStyle(color: Color(0xFF272033)),
+            ),
           ),
         );
+
       },
     );
   }
