@@ -3,7 +3,7 @@ import 'package:glucure_plus/services/off_api_service.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
 import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
 import 'package:typeset/typeset.dart';
-import 'package:glucure_plus/screens/main_screens/add_sugar_screen.dart';
+import 'package:glucure_plus/services/firestore_service.dart';
 
 class FoodSearchScreen extends StatefulWidget {
   static const String navID = 'food_search_screen';
@@ -192,10 +192,44 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
     final sugars = nutriments["sugars_100g"]?.toString() ?? "N/A";
 
     return Card(
-      color: kLightPurpleBgColor,
+      color: const Color(0xFF9E91AA),
       child: ListTile(
-        title: Text(productName),
-        subtitle: Text("Sugar Level: $sugars g"),
+        title: Text(
+          productName,
+          style: const TextStyle(color: Color(0xFF272033)),
+        ),
+        subtitle: Text(
+          "Sugar Level: $sugars g",
+          style: const TextStyle(color: Color(0xFF272033)),
+        ),
+        onTap: () async {
+          final name = productName.trim();
+          final sugarDouble = double.tryParse(sugars) ?? 0.0;
+
+          // Check if valid name & sugar > 0
+          if (name.isEmpty || name == "Unknown Product" || sugarDouble <= 0) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Cannot add. Missing name or sugar level is 0."),
+              ),
+            );
+            return;
+          }
+
+          try {
+            await FirestoreService().saveSugarLog(
+              productName: name,
+              sugarAmount: sugarDouble,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Added $name with $sugarDouble g sugar.")),
+            );
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Error: $e")),
+            );
+          }
+        },
       ),
     );
   }
@@ -222,9 +256,38 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
               "Sugar Level: $sugars g",
               style: const TextStyle(color: Color(0xFF272033)),
             ),
+            onTap: () async {
+              final name = productName.trim();
+              final sugarDouble = double.tryParse(sugars) ?? 0.0;
+
+              // Only add if name is not empty/Unknown and sugar is > 0
+              if (name.isEmpty || name == "Unknown Product" || sugarDouble <= 0) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Cannot add. Missing name or sugar level is 0."),
+                  ),
+                );
+                return;
+              }
+
+              try {
+                await FirestoreService().saveSugarLog(
+                  productName: name,
+                  sugarAmount: sugarDouble,
+                );
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Added $name with $sugarDouble g sugar."),
+                  ),
+                );
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Error: $e")),
+                );
+              }
+            },
           ),
         );
-
       },
     );
   }
