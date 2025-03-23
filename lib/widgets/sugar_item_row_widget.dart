@@ -30,9 +30,13 @@ class SugarItemRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            itemName,
-            style: const TextStyle(color: Colors.black, fontSize: 19),
+          Expanded(
+            child: Text(
+              itemName,
+              style: const TextStyle(color: Colors.black, fontSize: 19),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
           Row(
             children: [
