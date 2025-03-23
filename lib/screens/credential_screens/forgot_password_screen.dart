@@ -32,7 +32,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         backgroundColor: kDarkBgColor,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: kGoBackIconStyle,
+          icon: getGoBackIcon(),
         ),
       ),
       body: SingleChildScrollView(

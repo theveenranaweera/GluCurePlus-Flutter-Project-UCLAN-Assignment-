@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:glucure_plus/screens/credential_screens/welcome_screen.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
@@ -42,8 +43,14 @@ class _SignUpPageState extends State<SignUpPage> {
         appBar: AppBar(
           backgroundColor: kDarkBgColor,
           leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: kGoBackIconStyle,
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                WelcomePage.navID,
+                    (Route<dynamic> route) => false,
+              );
+            },
+            icon: getGoBackIcon(),
           ),
         ),
         body: SingleChildScrollView(

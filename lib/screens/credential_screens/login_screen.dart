@@ -9,6 +9,7 @@ import 'package:glucure_plus/screens/credential_screens/forgot_password_screen.d
 import 'package:glucure_plus/screens/main_screens/dashboard_screen.dart';
 import 'package:glucure_plus/widgets/credential_input_field_widget.dart';
 import 'package:glucure_plus/services/user_auth_service.dart';
+import 'package:glucure_plus/screens/credential_screens/welcome_screen.dart';
 
 class LoginPage extends StatefulWidget {
   static const String navID = 'login_screen';
@@ -41,8 +42,14 @@ class _LoginPageState extends State<LoginPage> {
         appBar: AppBar(
           backgroundColor: kDarkBgColor,
           leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: kGoBackIconStyle,
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                WelcomePage.navID,
+                    (Route<dynamic> route) => false,
+              );
+            },
+            icon: getGoBackIcon(),
           ),
         ),
         body: SingleChildScrollView(

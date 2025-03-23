@@ -59,8 +59,10 @@ final ButtonStyle kCredentialOutlinedButtonStyle = OutlinedButton.styleFrom(
     ),
 );
 
-const kGoBackIconStyle = Icon(
-    Iconsax.arrow_left_2,
-    size: 20,
-    color: Colors.white,
-);
+Icon getGoBackIcon({Color color = Colors.white}) {
+    return Icon(
+        Iconsax.arrow_left_2,
+        size: 20,
+        color: color,
+    );
+}
