@@ -4,6 +4,7 @@ import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dar
 import 'package:glucure_plus/screens/credential_screens/constants_for_credential_screens.dart';
 import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/services/firestore_service.dart';
+import 'package:iconsax/iconsax.dart';
 
 class FoodSearchScreen extends StatefulWidget {
   static const String navID = 'food_search_screen';
@@ -107,6 +108,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
                   ),
                   decoration: const InputDecoration(
                     border: InputBorder.none,
+                    prefixIcon: Icon(Iconsax.search_normal_1, color: Colors.black, size: 23,),
                     hintText: "Enter Item Name or Barcode Value",
                     hintStyle: TextStyle(
                       color: Colors.black54,
@@ -115,6 +117,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 16),
 
               // 4) "Search" Button, styled like the "SAVE" button in ProfileSettingsScreen
