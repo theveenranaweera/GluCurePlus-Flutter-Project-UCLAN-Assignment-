@@ -191,6 +191,7 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
                           style: TextStyle(
                             color: Colors.black87,
                             fontWeight: FontWeight.w500,
+                            fontSize: 15,
                             fontFamily: 'Sans',
                           ),
                         ),
