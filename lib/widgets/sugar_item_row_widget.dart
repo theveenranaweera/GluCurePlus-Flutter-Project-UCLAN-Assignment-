@@ -33,7 +33,11 @@ class SugarItemRow extends StatelessWidget {
           Expanded(
             child: Text(
               itemName,
-              style: const TextStyle(color: Colors.black, fontSize: 19),
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 17,
+                  fontFamily: 'Sans',
+              ),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
@@ -44,17 +48,18 @@ class SugarItemRow extends StatelessWidget {
                 "$sugarText g",
                 style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 18,
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'Sans',
                 ),
               ),
               const SizedBox(width: 15),
               IconButton(
-                icon: const Icon(Iconsax.edit, size: 20, color: Colors.black87),
+                icon: const Icon(Iconsax.edit, size: 18, color: Colors.black87),
                 onPressed: onEdit,
               ),
               IconButton(
-                icon: const Icon(Iconsax.trash, size: 20, color: Colors.red),
+                icon: const Icon(Iconsax.trash, size: 18, color: Colors.red),
                 onPressed: onDelete,
               ),
             ],

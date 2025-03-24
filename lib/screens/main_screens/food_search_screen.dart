@@ -5,6 +5,7 @@ import 'package:glucure_plus/screens/credential_screens/constants_for_credential
 import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/services/firestore_service.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
 
 class FoodSearchScreen extends StatefulWidget {
   static const String navID = 'food_search_screen';
@@ -219,10 +220,12 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
             return;
           }
 
+          final dateString = DateFormat('yyyy-MM-dd').format(DateTime.now());
           try {
-            await FirestoreService().saveSugarLog(
+            await FirestoreService().saveSugarLogForDay(
               productName: name,
               sugarAmount: sugarDouble,
+              dateString: dateString,
             );
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Added $name with $sugarDouble g sugar.")),
@@ -273,10 +276,12 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
                 return;
               }
 
+              final dateString = DateFormat('yyyy-MM-dd').format(DateTime.now());
               try {
-                await FirestoreService().saveSugarLog(
+                await FirestoreService().saveSugarLogForDay(
                   productName: name,
                   sugarAmount: sugarDouble,
+                  dateString: dateString,
                 );
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

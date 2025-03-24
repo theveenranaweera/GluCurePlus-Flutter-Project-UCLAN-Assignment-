@@ -5,6 +5,8 @@ import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/widgets/sugar_item_row_widget.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
 import 'package:glucure_plus/services/firestore_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 /// Add an enum to represent different sorts:
 enum SortOption {
@@ -25,12 +27,36 @@ class _DashboardBodyState extends State<DashboardBody> {
   // Keep track of which sorting strategy the user chose.
   SortOption _selectedSortOption = SortOption.chronological;
 
+  String? _selectedDate;        // The date the user picks
+  List<String> _availableDates = []; // All date docs from Firestore
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAvailableDates();
+  }
+
+  Future<void> _loadAvailableDates() async {
+    final dates = await FirestoreService().getAvailableDates();
+    setState(() {
+      _availableDates = dates;
+      // If you want to default to today if it exists:
+      final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      _selectedDate = _availableDates.contains(today)
+          ? today
+          : (_availableDates.isNotEmpty ? _availableDates.first : today);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
-        child: SingleChildScrollView(
+        // Check if _selectedDate is still null, if so, show a loading indicator.
+        child: _selectedDate == null
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
           child: StreamBuilder<double>(
             stream: FirestoreService().streamDailySugarGoal(),
             builder: (context, snapshotGoal) {
@@ -39,7 +65,7 @@ class _DashboardBodyState extends State<DashboardBody> {
               }
               final double dailyGoal = snapshotGoal.data!;
               return StreamBuilder<List<Map<String, dynamic>>>(
-                stream: FirestoreService().streamAllLogs(),
+                stream: FirestoreService().streamLogsForDay(_selectedDate!),
                 builder: (context, snapshotLogs) {
                   double totalSugar = 0.0;
                   List<Map<String, dynamic>> logs = [];
@@ -70,26 +96,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                             "Your *Sugar* Data",
                             style: kMainScreenHeadingText,
                           ),
-                          TextButton.icon(
-                            onPressed: () {
-                              // (Optional) allow user to pick a day
-                            },
-                            style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              backgroundColor: Colors.white,
-                            ),
-                            icon: const Icon(Iconsax.arrow_down_1,
-                                color: Color(0xFF202020), size: 15),
-                            label: const Text(
-                              "Today",
-                              style: TextStyle(
-                                color: Color(0xFF202020),
-                                fontFamily: 'Sans',
-                              ),
-                            ),
-                          ),
+                          _buildDateDropdown(),
                         ],
                       ),
                       const SizedBox(height: 13),
@@ -156,6 +163,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                             /// Replace the IconButton with a PopupMenuButton
                             PopupMenuButton<String>(
                               icon: const Icon(Iconsax.more, color: Colors.black),
+                              color: Colors.white,
                               onSelected: (String value) {
                                 switch (value) {
                                   case 'chronological':
@@ -177,20 +185,32 @@ class _DashboardBodyState extends State<DashboardBody> {
                               itemBuilder: (context) => [
                                 const PopupMenuItem(
                                   value: 'chronological',
-                                  child: Text('Sort Chronologically'),
+                                  child: Text(
+                                      'Sort Chronologically',
+                                      style: const TextStyle(color: Colors.black),
+                                  ),
                                 ),
                                 const PopupMenuItem(
                                   value: 'alphabetical',
-                                  child: Text('Sort Alphabetically'),
+                                  child: Text(
+                                      'Sort Alphabetically',
+                                      style: const TextStyle(color: Colors.black),
+                                  ),
                                 ),
                                 const PopupMenuItem(
                                   value: 'highestSugar',
-                                  child: Text('Sort by Highest Sugar'),
+                                  child: Text(
+                                      'Sort by Highest Sugar',
+                                      style: const TextStyle(color: Colors.black),
+                                  ),
                                 ),
                                 const PopupMenuDivider(),
                                 const PopupMenuItem(
                                   value: 'deleteAll',
-                                  child: Text('Delete All Logs'),
+                                  child: Text(
+                                      'Delete All Logs',
+                                      style: const TextStyle(color: Colors.black),
+                                  ),
                                 ),
                               ],
                             ),
@@ -210,7 +230,6 @@ class _DashboardBodyState extends State<DashboardBody> {
                         child: logs.isEmpty
                             ? const Center(child: Text("No sugar logs found."))
                             : ListView.builder(
-                          reverse: true,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: logs.length,
@@ -259,7 +278,8 @@ class _DashboardBodyState extends State<DashboardBody> {
                                   },
                                 );
                                 if (confirmed == true) {
-                                  await FirestoreService().deleteSugarLog(
+                                  await FirestoreService().deleteSugarLogForDay(
+                                    dateString: _selectedDate!,
                                     docId: docId,
                                   );
                                   ScaffoldMessenger.of(context)
@@ -285,11 +305,49 @@ class _DashboardBodyState extends State<DashboardBody> {
     );
   }
 
+  Widget _buildDateDropdown() {
+    return DropdownButton<String>(
+      value: _selectedDate,
+      onChanged: (newVal) {
+        setState(() => _selectedDate = newVal);
+      },
+      style: const TextStyle(
+        color: Colors.black,
+      ),
+      dropdownColor: Colors.white,
+      iconEnabledColor: Colors.black,
+      items: _availableDates.map((dateStr) {
+        return DropdownMenuItem(
+          value: dateStr,
+          child: Text(
+            dateStr,
+            style: const TextStyle(
+              color: Colors.black, // Ensure text inside items is dark
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+
+  // Helper function to convert various timestamp types to DateTime
+  DateTime parseTimestamp(dynamic timestamp) {
+    if (timestamp == null) {
+      // Use a default date: January 1, 1970
+      return DateTime(1970);
+    } else if (timestamp is DateTime) {
+      return timestamp;
+    } else if (timestamp is Timestamp) {
+      return timestamp.toDate();
+    }
+    // Optionally, you could handle other cases or throw an exception
+    throw Exception('Unsupported timestamp type');
+  }
+
   // A helper method to apply the chosen sort option:
-  List<Map<String, dynamic>> _sortLogs(
-      List<Map<String, dynamic>> logs,
-      SortOption sortOption,
-      ) {
+  List<Map<String, dynamic>> _sortLogs(List<Map<String, dynamic>> logs, SortOption sortOption,)
+  {
     switch (sortOption) {
       case SortOption.alphabetical:
         logs.sort((a, b) {
@@ -308,8 +366,12 @@ class _DashboardBodyState extends State<DashboardBody> {
         break;
       case SortOption.chronological:
       default:
-      // Firestore doesn't store a "date" in each document by default;
-      // we do nothing, meaning logs appear in the order they come from Firestore.
+      // Sort logs by timestamp in ascending order (earliest first)
+        logs.sort((a, b) {
+          final aTime = parseTimestamp(a['timestamp']);
+          final bTime = parseTimestamp(b['timestamp']);
+          return aTime.compareTo(bTime);
+        });
         break;
     }
     return logs;
@@ -331,7 +393,7 @@ class _DashboardBodyState extends State<DashboardBody> {
             TextButton(
               onPressed: () async {
                 try {
-                  await FirestoreService().deleteAllLogs();
+                  await FirestoreService().deleteAllLogsForDay(_selectedDate!);
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("All logs deleted.")),
@@ -399,6 +461,12 @@ class _DashboardBodyState extends State<DashboardBody> {
                     return;
                   }
                 }
+                if (newSugar <= 0) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Sugar amount must be greater than 0.")),
+                  );
+                  return;
+                }
                 if (updatedName == currentName && newSugar == currentSugar) {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -407,7 +475,8 @@ class _DashboardBodyState extends State<DashboardBody> {
                   return;
                 }
                 try {
-                  await FirestoreService().editSugarLog(
+                  await FirestoreService().editSugarLogForDay(
+                    dateString: _selectedDate!,  // the date user is currently viewing
                     docId: docId,
                     productName: updatedName,
                     sugarAmount: newSugar,

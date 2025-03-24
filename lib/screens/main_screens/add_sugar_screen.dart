@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
 import 'package:glucure_plus/services/firestore_service.dart';
+import 'package:intl/intl.dart';
 
 /// Screen for adding sugar data (product name & sugar amount) to Firestore.
 class AddSugarScreen extends StatefulWidget {
@@ -30,6 +31,7 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
   Future<void> _handleAddSugar() async {
     final String productName = _productNameController.text.trim();
     final String sugarText = _sugarAmountController.text.trim();
+    final double? sugarAmount = double.tryParse(sugarText);
 
     if (sugarText.contains('.')) {
       final parts = sugarText.split('.');
@@ -48,7 +50,6 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
       return;
     }
 
-    final double? sugarAmount = double.tryParse(sugarText);
     if (sugarAmount == null || sugarAmount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please enter a valid sugar amount.")),
@@ -56,10 +57,12 @@ class _AddSugarScreenState extends State<AddSugarScreen> {
       return;
     }
 
+    final dateString = DateFormat('yyyy-MM-dd').format(DateTime.now());
     try {
-      await FirestoreService().saveSugarLog(
+      await FirestoreService().saveSugarLogForDay(
         productName: productName,
         sugarAmount: sugarAmount,
+        dateString: dateString, // pass today's date
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
