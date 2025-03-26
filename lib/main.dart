@@ -11,6 +11,7 @@ import 'package:glucure_plus/screens/main_screens/add_sugar_screen.dart';
 import 'package:glucure_plus/screens/main_screens/dashboard_screen.dart';
 import 'package:glucure_plus/screens/main_screens/profile_settings_screen.dart';
 import 'package:glucure_plus/screens/main_screens/food_search_screen.dart';
+import 'connectivity_wrapper.dart';
 
 /// The entry point of the GluCure Plus application.
 void main() async {
@@ -35,7 +36,9 @@ class GluCurePlus extends StatelessWidget {
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
-      home: const AuthWrapper(),
+      home: const ConnectivityWrapper(
+        child: AuthWrapper(),
+      ),
       routes: {
         WelcomePage.navID: (context) => WelcomePage(),
         LoginPage.navID: (context) => LoginPage(),
