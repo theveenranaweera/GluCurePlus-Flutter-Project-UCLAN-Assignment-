@@ -6,6 +6,7 @@ import 'package:glucure_plus/widgets/sugar_item_row_widget.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
 import 'package:glucure_plus/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:glucure_plus/services/local_storage_service.dart';
 import 'package:intl/intl.dart';
 
 /// Add an enum to represent different sorts:
@@ -30,10 +31,21 @@ class _DashboardBodyState extends State<DashboardBody> {
   String? _selectedDate;        // The date the user picks
   List<String> _availableDates = []; // All date docs from Firestore
 
+  late LocalStorageService _localStorageService;
+
   @override
   void initState() {
     super.initState();
+    _localStorageService = LocalStorageService();
+    _loadSortPreference();
     _loadAvailableDates();
+  }
+
+  Future<void> _loadSortPreference() async {
+    final savedSortOption = await _localStorageService.getSortPreference();
+    setState(() {
+      _selectedSortOption = savedSortOption;
+    });
   }
 
   Future<void> _loadAvailableDates() async {
@@ -181,6 +193,8 @@ class _DashboardBodyState extends State<DashboardBody> {
                                   default:
                                     break;
                                 }
+                                // Save the new sort preference locally.
+                                _localStorageService.setSortPreference(_selectedSortOption);
                               },
                               itemBuilder: (context) => [
                                 const PopupMenuItem(
