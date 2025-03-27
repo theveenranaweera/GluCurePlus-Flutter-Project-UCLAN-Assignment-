@@ -22,7 +22,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool showLoadingSpinner = false;
+  bool _showLoadingSpinner = false;
 
   // Controllers for email and password.
   final TextEditingController _emailController = TextEditingController();
@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   // Attempts to sign in with email and password using [AuthService].
   Future<void> _handleSignInEmail() async {
     setState(() {
-      showLoadingSpinner = true;
+      _showLoadingSpinner = true;
     });
 
     final authService = AuthService();
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     setState(() {
-      showLoadingSpinner = false;
+      _showLoadingSpinner = false;
     });
 
   }
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
   // Attempts Google sign-in using [AuthService].
   Future<void> _handleSignInGoogle() async {
     setState(() {
-      showLoadingSpinner = true;
+      _showLoadingSpinner = true;
     });
 
     final authService = AuthService();
@@ -86,14 +86,14 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     setState(() {
-      showLoadingSpinner = false;
+      _showLoadingSpinner = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
-      inAsyncCall: showLoadingSpinner,
+      inAsyncCall: _showLoadingSpinner,
       child: Scaffold(
         backgroundColor: kDarkBgColor,
         appBar: AppBar(

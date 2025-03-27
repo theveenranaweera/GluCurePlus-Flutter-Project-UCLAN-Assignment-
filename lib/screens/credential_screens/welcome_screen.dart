@@ -7,9 +7,16 @@ import 'package:glucure_plus/screens/credential_screens/constants_for_credential
 import 'package:glucure_plus/screens/credential_screens/login_screen.dart';
 import 'package:glucure_plus/screens/credential_screens/signup_screen.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   static const String navID = 'welcome_screen';
 
+  const WelcomePage({Key? key}) : super(key: key);
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,12 +24,14 @@ class WelcomePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
+            // Reduced vertical padding so content sits higher
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(height: 60),
-                // Text
+
+                // Animated heading text
                 FadeInUp(
                   duration: const Duration(milliseconds: 300),
                   child: Center(
@@ -38,10 +47,9 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
 
-                // GIF
+                // Animated GIF Logo
                 FadeInUp(
                   duration: const Duration(milliseconds: 500),
                   child: SizedBox(
@@ -52,7 +60,6 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 30),
 
                 // Get Started Button
@@ -73,7 +80,6 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
 
                 // Sign In Button

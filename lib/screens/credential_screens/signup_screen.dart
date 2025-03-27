@@ -21,7 +21,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  bool showLoadingSpinner = false;
+  bool _showLoadingSpinner = false;
 
   // Controllers for capturing the user's input.
   final TextEditingController _emailController = TextEditingController();
@@ -40,7 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
   // Handles Sign Up with email/password logic, including basic validations.
   Future<void> _handleSignUpEmail() async {
     setState(() {
-      showLoadingSpinner = true;
+      _showLoadingSpinner = true;
     });
 
     // Ensure the password fields match before proceeding.
@@ -49,7 +49,7 @@ class _SignUpPageState extends State<SignUpPage> {
         const SnackBar(content: Text("Passwords do not match")),
       );
       setState(() {
-        showLoadingSpinner = false;
+        _showLoadingSpinner = false;
       });
       return;
     }
@@ -75,14 +75,14 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     setState(() {
-      showLoadingSpinner = false;
+      _showLoadingSpinner = false;
     });
   }
 
   // Attempts Google Sign Up using [AuthService].
   Future<void> _handleSignUpGoogle() async {
     setState(() {
-      showLoadingSpinner = true;
+      _showLoadingSpinner = true;
     });
 
     final authService = AuthService();
@@ -102,14 +102,14 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     setState(() {
-      showLoadingSpinner = false;
+      _showLoadingSpinner = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
-      inAsyncCall: showLoadingSpinner,
+      inAsyncCall: _showLoadingSpinner,
       child: Scaffold(
         backgroundColor: kDarkBgColor,
         appBar: AppBar(
