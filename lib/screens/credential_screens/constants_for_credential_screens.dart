@@ -1,3 +1,4 @@
+/// A collection of constants (colors, text styles, button styles, etc.)
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -50,7 +51,6 @@ final ButtonStyle kCredentialButtonStyle = ElevatedButton.styleFrom(
     ),
 );
 
-// Outlined Button Style
 final ButtonStyle kCredentialOutlinedButtonStyle = OutlinedButton.styleFrom(
     foregroundColor: kButtonFillColor,
     side: BorderSide(color: kButtonFillColor),

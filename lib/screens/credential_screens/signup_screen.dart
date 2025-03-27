@@ -1,3 +1,4 @@
+/// A screen that handles user registration via email/password or Google Sign-Up.
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:glucure_plus/screens/credential_screens/welcome_screen.dart';
@@ -13,6 +14,8 @@ import 'package:glucure_plus/services/user_auth_service.dart';
 class SignUpPage extends StatefulWidget {
   static const String navID = 'signup_screen';
 
+  const SignUpPage({Key? key}) : super(key: key);
+
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
@@ -20,7 +23,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   bool showLoadingSpinner = false;
 
-  // Controllers to capture the user's input.
+  // Controllers for capturing the user's input.
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
@@ -32,6 +35,75 @@ class _SignUpPageState extends State<SignUpPage> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  // Handles Sign Up with email/password logic, including basic validations.
+  Future<void> _handleSignUpEmail() async {
+    setState(() {
+      showLoadingSpinner = true;
+    });
+
+    // Ensure the password fields match before proceeding.
+    if (_passwordController.text != _confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Passwords do not match")),
+      );
+      setState(() {
+        showLoadingSpinner = false;
+      });
+      return;
+    }
+
+    final authService = AuthService();
+    try {
+      final newUser = await authService.signUpWithEmail(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+
+      if (newUser != null) {
+        // Inform the user to verify their email before accessing the app.
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Verification email sent. Please check your inbox.")),
+        );
+        Navigator.pushNamed(context, LoginPage.navID);
+      }
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Sign Up Failed: $error")),
+      );
+    }
+
+    setState(() {
+      showLoadingSpinner = false;
+    });
+  }
+
+  // Attempts Google Sign Up using [AuthService].
+  Future<void> _handleSignUpGoogle() async {
+    setState(() {
+      showLoadingSpinner = true;
+    });
+
+    final authService = AuthService();
+    try {
+      final userCredential = await authService.signInWithGoogle();
+      if (userCredential != null) {
+        Navigator.pushNamed(context, DashboardScreen.navID);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Google Sign In Failed")),
+        );
+      }
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $error")),
+      );
+    }
+
+    setState(() {
+      showLoadingSpinner = false;
+    });
   }
 
   @override
@@ -47,7 +119,9 @@ class _SignUpPageState extends State<SignUpPage> {
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 WelcomePage.navID,
-                    (Route<dynamic> route) => false,
+                    (Route<dynamic> route) {
+                  return false;
+                },
               );
             },
             icon: getGoBackIcon(),
@@ -80,11 +154,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       label: "Email Address",
                       hintText: "name@email.com",
                       prefixIcon: Iconsax.sms,
-                      // Pass the controller to capture user input.
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                     ),
                   ),
+
                   // Password
                   FadeInUp(
                     duration: const Duration(milliseconds: 600),
@@ -96,6 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: _passwordController,
                     ),
                   ),
+
                   // Confirm Password
                   FadeInUp(
                     duration: const Duration(milliseconds: 700),
@@ -109,7 +184,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Sign Up button with Firebase integration
+                  // Sign Up button
                   FadeInUp(
                     duration: const Duration(milliseconds: 800),
                     child: Center(
@@ -118,44 +193,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         height: kButtonHeight,
                         child: ElevatedButton(
                           style: kCredentialButtonStyle,
-                          onPressed: () async {
-                            setState(() {
-                              showLoadingSpinner = true;
-                            });
-
-                            // Ensure the password fields match before proceeding.
-                            if (_passwordController.text != _confirmPasswordController.text) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Passwords do not match")),
-                              );
-                              setState(() {
-                                showLoadingSpinner = false;
-                              });
-                              return;
-                            }
-
-                            final authService = AuthService();
-                            try {
-                              final newUser = await authService.signUpWithEmail(
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text,
-                              );
-                              if (newUser != null) {
-                                // Inform the user to verify their email before accessing the app.
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Verification email sent. Please check your inbox.")),
-                                );
-                                Navigator.pushNamed(context, LoginPage.navID);
-                              }
-                            } catch (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Sign Up Failed: ${error.toString()}")),
-                              );
-                            }
-                            setState(() {
-                              showLoadingSpinner = false;
-                            });
-                          },
+                          onPressed: _handleSignUpEmail,
                           child: const Text(
                             "Sign Up",
                             style: kCredentialButtonText,
@@ -164,7 +202,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 20),
 
                   // Google Sign Up button
@@ -176,37 +213,17 @@ class _SignUpPageState extends State<SignUpPage> {
                         height: kButtonHeight,
                         child: OutlinedButton.icon(
                           style: kCredentialOutlinedButtonStyle,
-                          icon: const Icon(Icons.login, color: kButtonFillColor),
+                          icon: Image.asset(
+                            'assets/images/google_logo_dark.png',
+                            height: 30, // adjust as needed
+                          ),
                           label: Text(
                             "Sign up with Google",
                             style: kCredentialButtonText.copyWith(
-                              color: kButtonFillColor, // dark text on gold
+                              color: kButtonFillColor,
                             ),
                           ),
-                          onPressed: () async {
-                            setState(() {
-                              showLoadingSpinner = true;
-                            });
-
-                            final authService = AuthService();
-                            try {
-                              final userCredential = await authService.signInWithGoogle();
-                              if (userCredential != null) {
-                                Navigator.pushNamed(context, DashboardScreen.navID);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Google Sign In Failed")),
-                                );
-                              }
-                            } catch (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Error: $error")),
-                              );
-                            }
-                            setState(() {
-                              showLoadingSpinner = false;
-                            });
-                          },
+                          onPressed: _handleSignUpGoogle,
                         ),
                       ),
                     ),

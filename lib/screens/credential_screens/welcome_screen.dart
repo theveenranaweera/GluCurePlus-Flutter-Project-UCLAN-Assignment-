@@ -1,3 +1,5 @@
+/// The landing page that welcomes users and offers
+/// "Get Started" (sign up) or "Sign In" navigation options.
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -15,7 +17,6 @@ class WelcomePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            // Reduced vertical padding so content sits higher
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -29,8 +30,8 @@ class WelcomePage extends StatelessWidget {
                       animatedTexts: [
                         TypewriterAnimatedText(
                           'Track Sweet.\n  Live Smart.',
-                          textStyle: kWelcomeScreenHeadingText,  // Keep the same style
-                          speed: const Duration(milliseconds: 130),  // Adjust animation speed
+                          textStyle: kWelcomeScreenHeadingText,
+                          speed: const Duration(milliseconds: 130),
                         ),
                       ],
                       repeatForever: true,
@@ -52,7 +53,6 @@ class WelcomePage extends StatelessWidget {
                   ),
                 ),
 
-                // A little vertical space before the buttons
                 const SizedBox(height: 30),
 
                 // Get Started Button
@@ -83,14 +83,14 @@ class WelcomePage extends StatelessWidget {
                     width: kButtonWidth,
                     height: kButtonHeight,
                     child: OutlinedButton(
-                      style: kCredentialOutlinedButtonStyle, // Use the constant style
+                      style: kCredentialOutlinedButtonStyle,
                       onPressed: () {
                         Navigator.pushNamed(context, LoginPage.navID);
                       },
                       child: Text(
                         "Sign In",
                         style: kCredentialButtonText.copyWith(
-                          color: kButtonFillColor, // dark text on gold
+                          color: kButtonFillColor,
                         ),
                       ),
                     ),

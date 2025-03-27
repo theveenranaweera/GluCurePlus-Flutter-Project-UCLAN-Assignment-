@@ -1,3 +1,4 @@
+/// A screen that allows the user to reset their password via email link.
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -14,7 +15,6 @@ class ForgotPasswordPage extends StatefulWidget {
 }
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
-
   final TextEditingController _emailController = TextEditingController();
 
   @override
@@ -24,6 +24,28 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     super.dispose();
   }
 
+  // Sends a reset link to the user's email using AuthService.
+  Future<void> _sendResetLink() async {
+    final email = _emailController.text.trim();
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter your email.")),
+      );
+      return;
+    }
+    final authService = AuthService();
+    try {
+      await authService.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Reset link sent to $email")),
+      );
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed: $error")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +53,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       appBar: AppBar(
         backgroundColor: kDarkBgColor,
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: getGoBackIcon(),
         ),
       ),
@@ -79,26 +103,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       height: kButtonHeight,
                       child: ElevatedButton(
                         style: kCredentialButtonStyle,
-                        onPressed: () async {
-                          final email = _emailController.text.trim();
-                          if(email.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Please enter your email.")),
-                            );
-                            return;
-                          }
-                          final authService = AuthService();
-                          try {
-                            await authService.sendPasswordResetEmail(email: email);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Reset link sent to $email")),
-                            );
-                          } catch (error) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Failed: $error")),
-                            );
-                          }
-                        },
+                        onPressed: _sendResetLink,
                         child: Text(
                           "Send Link",
                           style: kCredentialButtonText,

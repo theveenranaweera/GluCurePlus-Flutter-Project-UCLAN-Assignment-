@@ -1,3 +1,4 @@
+/// A screen that handles user login via email/password or Google Sign-In.
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:iconsax/iconsax.dart';
@@ -13,6 +14,8 @@ import 'package:glucure_plus/screens/credential_screens/welcome_screen.dart';
 
 class LoginPage extends StatefulWidget {
   static const String navID = 'login_screen';
+
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -33,6 +36,60 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  // Attempts to sign in with email and password using [AuthService].
+  Future<void> _handleSignInEmail() async {
+    setState(() {
+      showLoadingSpinner = true;
+    });
+
+    final authService = AuthService();
+    try {
+      final userCredential = await authService.signInWithEmail(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+      if (userCredential != null) {
+        Navigator.pushNamed(context, DashboardScreen.navID);
+      }
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Sign In Failed: $error")),
+      );
+    }
+
+    setState(() {
+      showLoadingSpinner = false;
+    });
+
+  }
+
+  // Attempts Google sign-in using [AuthService].
+  Future<void> _handleSignInGoogle() async {
+    setState(() {
+      showLoadingSpinner = true;
+    });
+
+    final authService = AuthService();
+    try {
+      final userCredential = await authService.signInWithGoogle();
+      if (userCredential != null) {
+        Navigator.pushNamed(context, DashboardScreen.navID);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Google Sign In Failed")),
+        );
+      }
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $error")),
+      );
+    }
+
+    setState(() {
+      showLoadingSpinner = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -46,7 +103,9 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 WelcomePage.navID,
-                    (Route<dynamic> route) => false,
+                    (Route<dynamic> route) {
+                  return false;
+                },
               );
             },
             icon: getGoBackIcon(),
@@ -55,12 +114,10 @@ class _LoginPageState extends State<LoginPage> {
         body: SingleChildScrollView(
           child: SafeArea(
             child: Padding(
-              // Moved to Padding for consistent spacing
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // Heading
                   FadeInUp(
                     duration: const Duration(milliseconds: 300),
                     child: Center(
@@ -72,6 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 30),
+
                   // Email
                   FadeInUp(
                     duration: const Duration(milliseconds: 500),
@@ -79,11 +137,11 @@ class _LoginPageState extends State<LoginPage> {
                       label: "Email Address",
                       hintText: "name@email.com",
                       prefixIcon: Iconsax.sms,
-                      // Pass the controller to capture the email.
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                     ),
                   ),
+
                   // Password
                   FadeInUp(
                     duration: const Duration(milliseconds: 600),
@@ -96,7 +154,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  // Sign In button with Firebase integration
+
+                  // Sign In button
                   FadeInUp(
                     duration: const Duration(milliseconds: 700),
                     child: Center(
@@ -105,30 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: kButtonHeight,
                         child: ElevatedButton(
                           style: kCredentialButtonStyle,
-                          onPressed: () async {
-                            setState(() {
-                              showLoadingSpinner = true;
-                            });
-
-                            // Create an instance of AuthService.
-                            final authService = AuthService();
-                            try {
-                              final userCredential = await authService.signInWithEmail(
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text,
-                              );
-                              if (userCredential != null) {
-                                Navigator.pushNamed(context, DashboardScreen.navID);
-                              }
-                            } catch (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Sign In Failed: ${error.toString()}")),
-                              );
-                            }
-                            setState(() {
-                              showLoadingSpinner = false;
-                            });
-                          },
+                          onPressed: _handleSignInEmail,
                           child: Text(
                             "Sign In",
                             style: kCredentialButtonText,
@@ -137,7 +173,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 20),
 
                   // Google Sign In
@@ -149,44 +184,21 @@ class _LoginPageState extends State<LoginPage> {
                         height: kButtonHeight,
                         child: OutlinedButton.icon(
                           style: kCredentialOutlinedButtonStyle,
-                          icon: const Icon(Iconsax.login, color: kButtonFillColor),
+                          icon: Image.asset(
+                            'assets/images/google_logo_dark.png',
+                            height: 30, // adjust as needed
+                          ),
                           label: Text(
                             "Sign in with Google",
                             style: kCredentialButtonText.copyWith(
-                              color: kButtonFillColor, // dark text on gold
+                              color: kButtonFillColor,
                             ),
                           ),
-                          onPressed: () async {
-                            setState(() {
-                              showLoadingSpinner = true;
-                            });
-
-                            // Create an instance of AuthService
-                            final authService = AuthService();
-                            try {
-                              final userCredential = await authService.signInWithGoogle();
-                              if (userCredential != null) {
-                                Navigator.pushNamed(context, DashboardScreen.navID);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Google Sign In Failed")),
-                                );
-                              }
-                            } catch (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Error: $error")),
-                              );
-                            }
-
-                            setState(() {
-                              showLoadingSpinner = false;
-                            });
-                          },
+                          onPressed: _handleSignInGoogle,
                         ),
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 10),
 
                   // Forgot Password?
@@ -204,7 +216,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  // Separator line
+
                   FadeInUp(
                     duration: const Duration(milliseconds: 1000),
                     child: Center(
@@ -215,6 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
+
                   // "New to our World? Sign Up"
                   FadeInUp(
                     duration: const Duration(milliseconds: 1100),
