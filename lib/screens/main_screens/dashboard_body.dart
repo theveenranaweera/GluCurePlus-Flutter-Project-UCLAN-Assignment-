@@ -252,7 +252,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                           itemBuilder: (context, index) {
                             final log = logs[index];
                             final productName = log['productName'];
-                            final sugarAmount = log['sugarAmount'];
+                            final sugarAmount = (log['sugarAmount'] as num).toDouble();
                             final docId = log['docId'];
                             return SugarItemRow(
                               docId: docId,
