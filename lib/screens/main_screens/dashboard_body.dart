@@ -62,6 +62,9 @@ class _DashboardBodyState extends State<DashboardBody> {
 
   @override
   Widget build(BuildContext context) {
+    final String todayString = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final bool canEdit = (_selectedDate == todayString);
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
@@ -219,13 +222,12 @@ class _DashboardBodyState extends State<DashboardBody> {
                                   ),
                                 ),
                                 const PopupMenuDivider(),
-                                const PopupMenuItem(
-                                  value: 'deleteAll',
-                                  child: Text(
-                                      'Delete All Logs',
-                                      style: const TextStyle(color: Colors.black),
+                                // Show “Delete All Logs” only if canEdit == true:
+                                if (canEdit)
+                                  const PopupMenuItem(
+                                    value: 'deleteAll',
+                                    child: Text('Delete All Logs', style: TextStyle(color: Colors.black)),
                                   ),
-                                ),
                               ],
                             ),
                           ],
@@ -256,6 +258,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                               docId: docId,
                               itemName: productName,
                               sugarGrams: sugarAmount,
+                              canEdit: canEdit,
                               onEdit: () {
                                 _showEditDialog(
                                   context,

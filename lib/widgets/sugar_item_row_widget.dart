@@ -6,6 +6,7 @@ class SugarItemRow extends StatelessWidget {
   final String docId;
   final String itemName;
   final double sugarGrams;
+  final bool canEdit;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
@@ -14,6 +15,7 @@ class SugarItemRow extends StatelessWidget {
     required this.docId,
     required this.itemName,
     required this.sugarGrams,
+    required this.canEdit,
     required this.onEdit,
     required this.onDelete,
   }) : super(key: key);
@@ -56,11 +58,11 @@ class SugarItemRow extends StatelessWidget {
               const SizedBox(width: 15),
               IconButton(
                 icon: const Icon(Iconsax.edit, size: 18, color: Colors.black87),
-                onPressed: onEdit,
+                onPressed: canEdit ? onEdit : null,
               ),
               IconButton(
                 icon: const Icon(Iconsax.trash, size: 18, color: Colors.red),
-                onPressed: onDelete,
+                onPressed: canEdit ? onDelete : null,
               ),
             ],
           ),
