@@ -1,3 +1,5 @@
+/// A reusable widget that wraps the AnimatedNotchBottomBar
+/// and handles the onTap callback to jump the PageController.
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
@@ -67,7 +69,7 @@ class CustomNotchNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int itemLength = bottomBarItems.length;
+    //final int itemLength = bottomBarItems.length;
 
     return AnimatedNotchBottomBar(
       notchBottomBarController: controller,

@@ -1,3 +1,4 @@
+/// A service for persisting user preferences locally via SharedPreferences.
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:glucure_plus/screens/main_screens/dashboard_body.dart';
 

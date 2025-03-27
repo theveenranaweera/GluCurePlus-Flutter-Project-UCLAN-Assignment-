@@ -1,3 +1,5 @@
+/// A collection of constants (colors, text styles, etc.)
+/// used for the main screens (Dashboard, Profile, etc.).
 import 'package:flutter/material.dart';
 
 const TextStyle kMainScreenHeadingText = TextStyle(

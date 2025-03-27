@@ -1,8 +1,9 @@
+/// Provides methods for authenticating via Firebase (email/pass, Google).
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-  /// Sign in and sign up using google authentication.
+  // Sign in and sign up using google authentication.
   Future<UserCredential?> signInWithGoogle() async {
     try {
       // Trigger the Google authentication flow.
@@ -30,7 +31,7 @@ class AuthService {
     }
   }
 
-  /// Sign in using Firebase Authentication.
+  // Sign in using Firebase Authentication.
   Future<UserCredential?> signInWithEmail({
     required String email,
     required String password,
@@ -57,7 +58,7 @@ class AuthService {
     }
   }
 
-  /// Sign up using Firebase Authentication.
+  // Sign up using Firebase Authentication.
   Future<UserCredential?> signUpWithEmail({
     required String email,
     required String password,
@@ -76,7 +77,7 @@ class AuthService {
     }
   }
 
-  /// Send a password reset email.
+  // Send a password reset email.
   Future<void> sendPasswordResetEmail({required String email}) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
@@ -86,7 +87,7 @@ class AuthService {
     }
   }
 
-  /// Sign out from app
+  // Sign out from app
   Future<void> signOut() async {
     try {
       await FirebaseAuth.instance.signOut();

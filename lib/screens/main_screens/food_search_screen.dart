@@ -1,3 +1,5 @@
+/// A screen that allows users to search for products via OpenFoodFacts
+/// either by name or barcode, then add them to today's sugar logs.
 import 'package:flutter/material.dart';
 import 'package:glucure_plus/services/off_api_service.dart';
 import 'package:glucure_plus/screens/main_screens/constants_for_main_screens.dart';
@@ -6,6 +8,7 @@ import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/services/firestore_service.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class FoodSearchScreen extends StatefulWidget {
   static const String navID = 'food_search_screen';
@@ -29,11 +32,13 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
   // For barcode result
   Map<String, dynamic>? _barcodeResult;
 
-  /// Handles the actual search logic: either by name or by barcode.
+  // Handles the actual search logic: either by name or by barcode.
   Future<void> _handleSearch() async {
     final query = _searchController.text.trim();
     if (query.isEmpty) {
-      setState(() => _errorMessage = "Please enter a product name or barcode.");
+      setState(() {
+        _errorMessage = "Please enter a product name or barcode.";
+      });
       return;
     }
 
@@ -46,144 +51,162 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
 
     try {
       // If query is purely numeric, treat it as a barcode
-      if (RegExp(r'^[0-9]+$').hasMatch(query)) {
+      if (int.tryParse(query) != null) {
         final product = await _openFoodFactsApiService.searchByBarcode(query);
         if (product == null) {
-          setState(() => _errorMessage = "No product found for barcode: $query");
+          setState(() {
+            _errorMessage = "No product found for barcode: $query";
+          });
         } else {
-          setState(() => _barcodeResult = product);
+          setState(() {
+            _barcodeResult = product;
+          });
         }
       } else {
         // Otherwise, treat as a product name search
         final results = await _openFoodFactsApiService.searchByName(query);
         if (results.isEmpty) {
-          setState(() => _errorMessage = "No products found for '$query'");
+          setState(() {
+            _errorMessage = "No products found for '$query'";
+          });
         } else {
-          setState(() => _searchResults = results);
+          setState(() {
+            _searchResults = results;
+          });
         }
       }
     } catch (e) {
-      setState(() => _errorMessage = "Error searching products: $e");
+      setState(() {
+        _errorMessage = "Error searching products: $e";
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
-
-    setState(() => _isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // 1) Match the off-white background
-      backgroundColor: kOffWhiteBgColor,
-      appBar: AppBar(
+    return ModalProgressHUD(
+      color: Colors.black,
+      inAsyncCall: _isLoading,
+      child: Scaffold(
         backgroundColor: kOffWhiteBgColor,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: getGoBackIcon(color: Colors.black),
+        appBar: AppBar(
+          backgroundColor: kOffWhiteBgColor,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: getGoBackIcon(color: Colors.black),
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 2) Heading with TypeSet, matching style from ProfileSettingsScreen
-              TypeSet(
-                "*Search* Database",
-                style: kMainScreenHeadingText,
-              ),
-              const SizedBox(height: 15),
-
-              // 3) Container for the search field, styled similarly to the text fields
-              Container(
-                decoration: BoxDecoration(
-                  color: kLightGreyButtonBgColor,
-                  borderRadius: BorderRadius.circular(16),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Heading
+                TypeSet(
+                  "*Search* Database",
+                  style: kMainScreenHeadingText,
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: TextField(
-                  controller: _searchController,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Sans',
+                const SizedBox(height: 15),
+
+                // Search field
+                Container(
+                  decoration: BoxDecoration(
+                    color: kLightGreyButtonBgColor,
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    prefixIcon: Icon(Iconsax.search_normal_1, color: Colors.black, size: 23,),
-                    hintText: "Enter Item Name or Barcode Value",
-                    hintStyle: TextStyle(
-                      color: Colors.black54,
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: TextField(
+                    controller: _searchController,
+                    style: const TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Sans',
                     ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // 4) "Search" Button, styled like the "SAVE" button in ProfileSettingsScreen
-              Center(
-                child: SizedBox(
-                  width: 120,
-                  height: 48,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kDarkPurpleBgColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      prefixIcon: Icon(
+                        Iconsax.search_normal_1,
+                        color: Colors.black,
+                        size: 23,
                       ),
-                    ),
-                    onPressed: _handleSearch,
-                    child: const Text(
-                      "SEARCH",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                      hintText: "Enter Item Name or Barcode Value",
+                      hintStyle: TextStyle(
+                        color: Colors.black54,
                         fontFamily: 'Sans',
                       ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
+                const SizedBox(height: 16),
 
-              // 5) Loading indicator or error message
-              if (_isLoading)
-                const Center(child: CircularProgressIndicator()),
-              if (_errorMessage.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    _errorMessage,
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.w600,
+                // "Search" button
+                Center(
+                  child: SizedBox(
+                    width: 120,
+                    height: 48,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kDarkPurpleBgColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      onPressed: _handleSearch,
+                      child: const Text(
+                        "SEARCH",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontFamily: 'Sans',
+                        ),
+                      ),
                     ),
                   ),
                 ),
+                const SizedBox(height: 20),
 
-              // 6) Results
-              // Wrap results in a container with a subtle background, like kLightPurpleBgColor
-              if (_barcodeResult != null)
-                Container(
-                  decoration: BoxDecoration(
-                    color: kLightPurpleBgColor,
-                    borderRadius: BorderRadius.circular(15),
+                // Error message
+                if (_errorMessage.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      _errorMessage,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                  padding: const EdgeInsets.all(13),
-                  child: _buildBarcodeResult(_barcodeResult!),
-                )
-              else if (_searchResults.isNotEmpty)
-                Container(
-                  decoration: BoxDecoration(
-                    color: kLightPurpleBgColor,
-                    borderRadius: BorderRadius.circular(15),
+
+                // Results
+                if (_barcodeResult != null)
+                  Container(
+                    decoration: BoxDecoration(
+                      color: kLightPurpleBgColor,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    padding: const EdgeInsets.all(13),
+                    child: _buildBarcodeResult(_barcodeResult!),
+                  )
+                else if (_searchResults.isNotEmpty)
+                  Container(
+                    decoration: BoxDecoration(
+                      color: kLightPurpleBgColor,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    padding: const EdgeInsets.all(13),
+                    child: _buildNameSearchResults(),
                   ),
-                  padding: const EdgeInsets.all(13),
-                  child: _buildNameSearchResults(),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -210,7 +233,6 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
           final name = productName.trim();
           final sugarDouble = double.tryParse(sugars) ?? 0.0;
 
-          // Check if valid name & sugar > 0
           if (name.isEmpty || name == "Unknown Product" || sugarDouble <= 0) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -266,8 +288,9 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
               final name = productName.trim();
               final sugarDouble = double.tryParse(sugars) ?? 0.0;
 
-              // Only add if name is not empty/Unknown and sugar is > 0
-              if (name.isEmpty || name == "Unknown Product" || sugarDouble <= 0) {
+              if (name.isEmpty ||
+                  name == "Unknown Product" ||
+                  sugarDouble <= 0) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text("Cannot add. Missing name or sugar level is 0."),

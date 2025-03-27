@@ -1,9 +1,13 @@
+/// A wrapper that monitors network connectivity status.
+/// If offline, displays a "No network connection" banner at the bottom.
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class ConnectivityWrapper extends StatefulWidget {
+  // The child widget (usually the entire app) wrapped by the connectivity monitor.
   final Widget child;
+
   const ConnectivityWrapper({Key? key, required this.child}) : super(key: key);
 
   @override
@@ -13,22 +17,24 @@ class ConnectivityWrapper extends StatefulWidget {
 class _ConnectivityWrapperState extends State<ConnectivityWrapper> {
   bool _isOffline = false;
 
-  // Declare the subscription to handle a *list* of ConnectivityResult.
+  // Subscription to handle a *list* of [ConnectivityResult].
   late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
   @override
   void initState() {
     super.initState();
-    // Listen to the new onConnectivityChanged, which provides a list.
-    _connectivitySubscription = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> results) {
-          // Check if the list contains ConnectivityResult.none
-          final bool offline = results.contains(ConnectivityResult.none);
-          if (offline != _isOffline) {
-            setState(() {
-              _isOffline = offline;
-            });
-          }
+    // Listen to the new onConnectivityChanged, which provides a list of results.
+    _connectivitySubscription = Connectivity()
+        .onConnectivityChanged
+        .listen((List<ConnectivityResult> results) {
+      // Check if the list contains ConnectivityResult.none
+      final bool offline = results.contains(ConnectivityResult.none);
+      if (offline != _isOffline) {
+        setState(() {
+          _isOffline = offline;
         });
+      }
+    });
   }
 
   @override

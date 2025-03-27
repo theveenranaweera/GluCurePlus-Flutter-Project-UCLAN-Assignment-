@@ -1,7 +1,7 @@
+/// A row widget displaying a product name, sugar amount, and edit/delete actions.
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-/// A row widget displaying a product name, sugar amount, and edit/delete actions.
 class SugarItemRow extends StatelessWidget {
   final String docId;
   final String itemName;

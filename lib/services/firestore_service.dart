@@ -1,16 +1,14 @@
+/// Handles all Firestore operations for sugar logging and user settings.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
-/// Handles all Firestore operations for sugar logging and user settings.
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<void> saveSugarLogForDay({
-    required String productName,
-    required double sugarAmount,
-    required String dateString,
-  }) async {
+  // Save sugar log for a given day (specified by dateString).
+  // Creates the day's doc if it doesn't exist (with dailyTarget=30 by default).
+  Future<void> saveSugarLogForDay({required String productName, required double sugarAmount, required String dateString}) async {
     final User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       throw Exception('User not logged in');
@@ -35,6 +33,7 @@ class FirestoreService {
     });
   }
 
+  // Streams the sugar logs for a specific date (e.g. "2025-03-25").
   Stream<List<Map<String, dynamic>>> streamLogsForDay(String dateString) {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
@@ -57,12 +56,8 @@ class FirestoreService {
     });
   }
 
-  Future<void> editSugarLogForDay({
-    required String dateString,
-    required String docId,
-    required String productName,
-    required double sugarAmount,
-  }) async {
+  // Edit a single sugar log record for the given date/doc ID.
+  Future<void> editSugarLogForDay({required String dateString, required String docId, required String productName, required double sugarAmount}) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       throw Exception('User not logged in');
@@ -82,10 +77,8 @@ class FirestoreService {
     });
   }
 
-  Future<void> deleteSugarLogForDay({
-    required String dateString,
-    required String docId,
-  }) async {
+  // Delete a single sugar log for the specified date/doc ID.
+  Future<void> deleteSugarLogForDay({required String dateString, required String docId}) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       throw Exception('User not logged in');
@@ -101,6 +94,7 @@ class FirestoreService {
         .delete();
   }
 
+  // Get all existing date docs for the user (e.g. ["2025-03-24", "2025-03-25"]).
   Future<List<String>> getAvailableDates() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
@@ -112,9 +106,12 @@ class FirestoreService {
         .collection('dailyLogs')
         .get();
     // Return the doc IDs (e.g. "2025-03-24", "2025-03-25")
-    return querySnapshot.docs.map((doc) => doc.id).toList();
+    return querySnapshot.docs.map((doc) {
+      return doc.id;
+    }).toList();
   }
 
+  // Streams the daily sugar goal for today's date.
   Stream<double> streamDailySugarGoal() {
     final User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
@@ -130,14 +127,14 @@ class FirestoreService {
         .snapshots()
         .map((snapshot) {
       if (!snapshot.exists) {
-        // If the document doesn’t exist yet, default to 30g.
-        return 30.0;
+        return 30.0; // If the document doesn’t exist yet, default to 30g.
       }
       final data = snapshot.data();
       return (data?['dailyTarget'] as num?)?.toDouble() ?? 30.0;
     });
   }
 
+  // Gets today's daily sugar goal, defaulting to 30 if no doc exists yet.
   Future<double> getDailySugarGoal() async {
     final String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
     final User? user = FirebaseAuth.instance.currentUser;
@@ -157,6 +154,7 @@ class FirestoreService {
     return (data?['dailyTarget'] as num?)?.toDouble() ?? 30.0;
   }
 
+  // Sets today's daily sugar goal, creating the doc if necessary.
   Future<void> setDailySugarGoal(double goal) async {
     final String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
     final User? user = FirebaseAuth.instance.currentUser;
@@ -172,6 +170,7 @@ class FirestoreService {
     await docRef.set({'dailyTarget': goal}, SetOptions(merge: true));
   }
 
+  // Deletes all logs for the given date, leaving the dailyLogs doc itself intact.
   Future<void> deleteAllLogsForDay(String dateString) async {
     final User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
@@ -192,6 +191,4 @@ class FirestoreService {
     }
     await batch.commit();
   }
-
-
 }
