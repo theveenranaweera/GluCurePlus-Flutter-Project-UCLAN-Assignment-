@@ -365,8 +365,8 @@ class _DashboardBodyState extends State<DashboardBody> {
     switch (sortOption) {
       case SortOption.alphabetical:
         logs.sort((a, b) {
-          final nameA = (a['productName'] ?? '').toString();
-          final nameB = (b['productName'] ?? '').toString();
+          final nameA = (a['productName'] ?? '').toString().toLowerCase();
+          final nameB = (b['productName'] ?? '').toString().toLowerCase();
           return nameA.compareTo(nameB);
         });
         break;

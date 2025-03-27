@@ -188,14 +188,19 @@ class _SignUpPageState extends State<SignUpPage> {
                               showLoadingSpinner = true;
                             });
 
-                            // Create an instance of AuthService.
-                            final AuthService _authService = AuthService();
-                            final userCredential = await _authService.signInWithGoogle();
-                            if (userCredential != null) {
-                              Navigator.pushNamed(context, DashboardScreen.navID);
-                            } else {
+                            final authService = AuthService();
+                            try {
+                              final userCredential = await authService.signInWithGoogle();
+                              if (userCredential != null) {
+                                Navigator.pushNamed(context, DashboardScreen.navID);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text("Google Sign In Failed")),
+                                );
+                              }
+                            } catch (error) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Google Sign In Failed")),
+                                SnackBar(content: Text("Error: $error")),
                               );
                             }
                             setState(() {

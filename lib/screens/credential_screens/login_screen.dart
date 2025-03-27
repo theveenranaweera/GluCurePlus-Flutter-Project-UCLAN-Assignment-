@@ -164,17 +164,17 @@ class _LoginPageState extends State<LoginPage> {
                             // Create an instance of AuthService
                             final authService = AuthService();
                             try {
-                              final userCredential = await authService.signInWithEmail(
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text,
-                              );
+                              final userCredential = await authService.signInWithGoogle();
                               if (userCredential != null) {
                                 Navigator.pushNamed(context, DashboardScreen.navID);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text("Google Sign In Failed")),
+                                );
                               }
                             } catch (error) {
-                              // Show an error message instructing the user to verify their email.
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(error.toString())),
+                                SnackBar(content: Text("Error: $error")),
                               );
                             }
 
