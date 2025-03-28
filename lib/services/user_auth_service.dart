@@ -32,10 +32,7 @@ class AuthService {
   }
 
   // Sign in using Firebase Authentication.
-  Future<UserCredential?> signInWithEmail({
-    required String email,
-    required String password,
-  }) async {
+  Future<UserCredential?> signInWithEmail({required String email, required String password}) async {
     try {
       final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
@@ -59,10 +56,7 @@ class AuthService {
   }
 
   // Sign up using Firebase Authentication.
-  Future<UserCredential?> signUpWithEmail({
-    required String email,
-    required String password,
-  }) async {
+  Future<UserCredential?> signUpWithEmail({required String email, required String password}) async {
     try {
       final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
