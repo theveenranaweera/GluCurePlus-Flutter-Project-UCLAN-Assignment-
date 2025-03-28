@@ -7,6 +7,7 @@ import 'package:typeset/typeset.dart';
 import 'package:glucure_plus/services/firestore_service.dart';
 import 'package:glucure_plus/services/user_auth_service.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:intl/intl.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   static const String navID = 'profile_settings_screen';
@@ -25,6 +26,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   // Controls whether the ModalProgressHUD shows a loading spinner.
   bool _isLoading = false;
 
+  final String _today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
   @override
   void initState() {
     super.initState();
@@ -38,7 +41,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       _isLoading = true;
     });
     try {
-      final double goal = await FirestoreService().getDailySugarGoal();
+      final double goal = await FirestoreService().getDailySugarGoalForDay(_today);;
       _dailyTargetController.text = goal.toString();
     } catch (e) {
       debugPrint("Error loading daily target: $e");
@@ -70,7 +73,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       _isLoading = true;
     });
     try {
-      await FirestoreService().setDailySugarGoal(dailyTarget);
+      await FirestoreService().setDailySugarGoalForDay(_today, dailyTarget);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Daily target updated to ${dailyTarget.toStringAsFixed(1)} g"),

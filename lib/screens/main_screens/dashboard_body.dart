@@ -104,7 +104,7 @@ class _DashboardBodyState extends State<DashboardBody> {
   // Builds the main content widgets (progress ring + sugar logs) once _selectedDate is available.
   Widget _buildMainContent() {
     return StreamBuilder<double>(
-      stream: FirestoreService().streamDailySugarGoal(),
+      stream: FirestoreService().streamDailySugarGoalForDay(_selectedDate!),
       builder: (context, snapshotGoal) {
         if (!snapshotGoal.hasData) {
           // We rely on the ModalProgressHUD to show loading; empty container here

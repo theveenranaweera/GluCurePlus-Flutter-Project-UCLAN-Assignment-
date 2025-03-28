@@ -1,7 +1,6 @@
 /// Handles all Firestore operations for sugar logging and user settings.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart';
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -111,63 +110,66 @@ class FirestoreService {
     }).toList();
   }
 
-  // Streams the daily sugar goal for today's date.
-  Stream<double> streamDailySugarGoal() {
-    final User? user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      return Stream.value(30.0);
-    }
-
-    final String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    return _db
-        .collection('sugarLogs')
-        .doc(user.uid)
-        .collection('dailyLogs')
-        .doc(today)
-        .snapshots()
-        .map((snapshot) {
-      if (!snapshot.exists) {
-        return 30.0; // If the document doesn’t exist yet, default to 30g.
-      }
-      final data = snapshot.data();
-      return (data?['dailyTarget'] as num?)?.toDouble() ?? 30.0;
-    });
-  }
-
-  // Gets today's daily sugar goal, defaulting to 30 if no doc exists yet.
-  Future<double> getDailySugarGoal() async {
-    final String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final User? user = FirebaseAuth.instance.currentUser;
+  // Returns the daily sugar goal for a specific date, defaulting to 30 if missing.
+  Future<double> getDailySugarGoalForDay(String dateString) async {
+    final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       throw Exception("No user is logged in.");
     }
+
     final docRef = _db
         .collection('sugarLogs')
         .doc(user.uid)
         .collection('dailyLogs')
-        .doc(today);
+        .doc(dateString);
+
     final snapshot = await docRef.get();
     if (!snapshot.exists) {
       return 30.0;
     }
+
     final data = snapshot.data();
     return (data?['dailyTarget'] as num?)?.toDouble() ?? 30.0;
   }
 
-  // Sets today's daily sugar goal, creating the doc if necessary.
-  Future<void> setDailySugarGoal(double goal) async {
-    final String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final User? user = FirebaseAuth.instance.currentUser;
+  // Sets the daily sugar goal for a specific date, creating the doc if needed.
+  Future<void> setDailySugarGoalForDay(String dateString, double goal) async {
+    final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       throw Exception("No user is logged in.");
     }
+
     final docRef = _db
         .collection('sugarLogs')
         .doc(user.uid)
         .collection('dailyLogs')
-        .doc(today);
+        .doc(dateString);
 
+    // Merge to avoid overwriting logs
     await docRef.set({'dailyTarget': goal}, SetOptions(merge: true));
+  }
+
+  // Streams the daily sugar goal for a specific date, defaulting to 30 if missing.
+  Stream<double> streamDailySugarGoalForDay(String dateString) {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      // If no user, return a stream with just 30
+      return Stream.value(30.0);
+    }
+
+    final docRef = _db
+        .collection('sugarLogs')
+        .doc(user.uid)
+        .collection('dailyLogs')
+        .doc(dateString);
+
+    return docRef.snapshots().map((snapshot) {
+      if (!snapshot.exists) {
+        return 30.0;
+      }
+      final data = snapshot.data();
+      return (data?['dailyTarget'] as num?)?.toDouble() ?? 30.0;
+    });
   }
 
   // Deletes all logs for the given date, leaving the dailyLogs doc itself intact.
