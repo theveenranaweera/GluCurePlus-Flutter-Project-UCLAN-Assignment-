@@ -11,6 +11,7 @@ import 'package:glucure_plus/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:glucure_plus/services/local_storage_service.dart';
 import 'package:intl/intl.dart';
+import 'dart:async';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 // Enum to represent different sorting strategies for sugar logs.
@@ -43,12 +44,29 @@ class _DashboardBodyState extends State<DashboardBody> {
   // Controls whether the loading spinner (ModalProgressHUD) is displayed.
   bool _isLoading = false;
 
+  // Timer that fires periodically to detect when the system date has rolled over
+  Timer? _midnightWatcher;
+
+  // Stores the last “today” date string (formatted yyyy-MM-dd);
+  // used to compare each minute
+  String _lastDateString = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
   @override
   void initState() {
     super.initState();
-    _localStorageService = LocalStorageService();
+    _localStorageService = LocalStorageService(); // Initialize our local storage helper
+
+    // Load any saved sort preference and available dates
     _loadSortPreference();
     _loadAvailableDates();
+
+    _startMidnightWatcher(); // Start a timer that checks every minute if the date has rolled over
+  }
+
+  @override
+  void dispose() {
+    _midnightWatcher?.cancel(); // Stop the timer when this widget goes away to avoid leaks
+    super.dispose();
   }
 
   // Loads the saved sort preference (chronological, alphabetical, etc.) from local storage.
@@ -68,6 +86,11 @@ class _DashboardBodyState extends State<DashboardBody> {
     final dates = await FirestoreService().getAvailableDates();
     final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
+    // Ensure today is always present so the dropdown can select it.
+    if (!dates.contains(today)) {
+      dates.insert(0, today);
+    }
+
     setState(() {
       _availableDates = dates;
       // Default to today if it exists, otherwise first in the list or today.
@@ -79,6 +102,29 @@ class _DashboardBodyState extends State<DashboardBody> {
         _selectedDate = today; // fallback if empty
       }
       _isLoading = false;
+    });
+  }
+
+  /// Starts a periodic timer that checks once a minute whether
+  /// the calendar date (yyyy-MM-dd) has changed. If it has,
+  /// then we reload our list of available dates.
+  void _startMidnightWatcher() {
+    // Duration of one minute
+    final oneMinute = const Duration(minutes: 1);
+
+    // Schedule a callback every minute
+    _midnightWatcher = Timer.periodic(oneMinute, (Timer timer) {
+      // Get the current date as a string, e.g. "2025-05-06"
+      final todayString = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+      // If the date has changed since last check...
+      if (todayString != _lastDateString) {
+        // Update our stored date
+        _lastDateString = todayString;
+
+        // Refresh any UI or data that depends on “today”
+        _loadAvailableDates();
+      }
     });
   }
 
