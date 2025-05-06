@@ -162,7 +162,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
                 // Daily target label
                 const Text(
-                  "DAILY TARGET",
+                  "DAILY TARGET(g)",
                   style: kMainScreenSubHeadingText,
                 ),
                 const SizedBox(height: 8),
