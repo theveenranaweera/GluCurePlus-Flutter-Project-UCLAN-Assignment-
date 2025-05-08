@@ -217,10 +217,28 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
     final productName = product["product_name"] ?? "Unknown Product";
     final nutriments = product["nutriments"] ?? {};
     final sugars = nutriments["sugars_100g"]?.toString() ?? "N/A";
+    final imageUrl = product["image_front_small_url"] as String? ??
+        product["image_front_thumb_url"] as String? ??
+        "";
 
     return Card(
       color: const Color(0xFF9E91AA),
       child: ListTile(
+        leading: imageUrl.isNotEmpty
+            ? ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.network(
+            imageUrl,
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+          ),
+        )
+            : const Icon(
+          Icons.image_not_supported,
+          size: 50,
+          color: Colors.grey,
+        ),
         title: Text(
           productName,
           style: const TextStyle(color: Color(0xFF272033)),
@@ -236,7 +254,9 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
           if (name.isEmpty || name == "Unknown Product" || sugarDouble <= 0) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text("Cannot add. Missing name or sugar level is 0."),
+                content: Text(
+                  "Cannot add. Missing name or sugar level is 0.",
+                ),
               ),
             );
             return;
@@ -272,10 +292,28 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
         final productName = product["product_name"] ?? "Unknown Product";
         final nutriments = product["nutriments"] ?? {};
         final sugars = nutriments["sugars"]?.toString() ?? "N/A";
+        final imageUrl = product["image_front_small_url"] as String? ??
+            product["image_front_thumb_url"] as String? ??
+            "";
 
         return Card(
           color: const Color(0xFF9E91AA),
           child: ListTile(
+            leading: imageUrl.isNotEmpty
+                ? ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                imageUrl,
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+              ),
+            )
+                : const Icon(
+              Icons.image_not_supported,
+              size: 50,
+              color: Colors.grey,
+            ),
             title: Text(
               productName,
               style: const TextStyle(color: Color(0xFF272033)),
@@ -293,13 +331,16 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
                   sugarDouble <= 0) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text("Cannot add. Missing name or sugar level is 0."),
+                    content: Text(
+                      "Cannot add. Missing name or sugar level is 0.",
+                    ),
                   ),
                 );
                 return;
               }
 
-              final dateString = DateFormat('yyyy-MM-dd').format(DateTime.now());
+              final dateString =
+              DateFormat('yyyy-MM-dd').format(DateTime.now());
               try {
                 await FirestoreService().saveSugarLogForDay(
                   productName: name,
