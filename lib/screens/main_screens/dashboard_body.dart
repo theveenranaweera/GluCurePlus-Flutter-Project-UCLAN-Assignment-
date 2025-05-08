@@ -91,6 +91,14 @@ class _DashboardBodyState extends State<DashboardBody> {
       dates.insert(0, today);
     }
 
+    // Sort dates descending (newest first) so the dropdown shows today at the top
+    dates.sort((a, b) {
+      final dateA = DateTime.parse(a);
+      final dateB = DateTime.parse(b);
+      // dateB.compareTo(dateA) makes the newest date come first
+      return dateB.compareTo(dateA);
+    });
+
     setState(() {
       _availableDates = dates;
       // Default to today if it exists, otherwise first in the list or today.
@@ -122,7 +130,15 @@ class _DashboardBodyState extends State<DashboardBody> {
         // Update our stored date
         _lastDateString = todayString;
 
-        // Refresh any UI or data that depends on “today”
+        // Ensure a Firestore doc exists for today by setting a default daily target.
+        // This creates the `dailyLogs/{today}` document so that getAvailableDates()
+        // will include today on next fetch.
+        FirestoreService().setDailySugarGoalForDay(
+          todayString,
+          30.0, // or pull in your user's preferred target if you store that elsewhere
+        );
+
+        // Reload dropdown and UI now that the doc (and dropdown item) exists
         _loadAvailableDates();
       }
     });
